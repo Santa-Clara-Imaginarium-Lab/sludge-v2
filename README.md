@@ -7,7 +7,7 @@ Official Sludge V2 repository.
 ## Prerequisites
 
 - **Node.js**: Make sure you have Node.js installed. This project is tested with Node.js v20.10.0
-- **For clean installation**: Delete all node_modules/ folders and package-lock.json from client, backend and root folders
+- **For clean installation**: Delete the node_modules/ folder and package-lock.json from root folder and install again
 
 ## Setup
 
