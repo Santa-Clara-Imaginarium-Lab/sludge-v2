@@ -6,6 +6,8 @@ import Setup from './setup/Setup';
 import PostTestSurvey from './postTestSurvey/PostTestSurvey';
 import PreTestSurvey from './preTestSurvey/PreTestSurvey';
 import StudyPart from './StudyPart/StudyPart';
+import { createContext, useContext, useState } from "react";
+
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
@@ -32,8 +34,28 @@ const router = createBrowserRouter([
   },
 ]);
 
+const AppContext = createContext();
+
+export const AppProvider = ({ children }) => {
+  const [companionContent, setCompanionContent] = useState(false);
+  const [subtitles, setSubtitles] = useState(false);
+
+  return (
+    <AppContext.Provider value={{ companionContent, setCompanionContent, subtitles, setSubtitles }}>
+      {children}
+    </AppContext.Provider>
+  );
+};
+
+export const useAppContext = () => useContext(AppContext);
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-      <RouterProvider router={router} />
+        <AppProvider>
+          <RouterProvider router={router}>
+            <App />
+          </RouterProvider>
+        </AppProvider>
   </React.StrictMode>
 );
