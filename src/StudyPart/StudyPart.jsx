@@ -1,6 +1,6 @@
 import React from 'react';
 import exampleSubtitles from "./MIB2-subtitles-pt-BR.vtt";
-import video from "./MIB2.mp4";
+import podcastVideo from "../videoAssets/podcastVideo.mp4";
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from "../index";
 
@@ -18,8 +18,8 @@ const StudyPart = () => {
     <div>
       <p>Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
       <p>Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
-        <video width="600" height="400" controls>
-          <source src={video} type="video/mp4" />
+        <video width="600" height="400" autoPlay style={{'pointer-events': 'none'}}>
+          <source src={podcastVideo} type="video/mp4" />
           {
             subtitles && <track
               label="en"
