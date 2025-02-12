@@ -1,8 +1,15 @@
 import React from 'react';
 import exampleSubtitles from "./MIB2-subtitles-pt-BR.vtt";
-import podcastVideo from "../videoAssets/podcastVideo.mp4";
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from "../index";
+
+import primaryContent from "../videoAssets/primaryContent.mp4";
+
+import minecraftCompanion1 from "../videoAssets/companionContent/minecraft1.mp4";
+import minecraftCompanion2 from "../videoAssets/companionContent/minecraft2.mp4";
+import craftCompanion1 from "../videoAssets/companionContent/craft1.mp4";
+import craftCompanion2 from "../videoAssets/companionContent/craft2.mp4";
+import craftCompanion3 from "../videoAssets/companionContent/craft3.mp4";
 
 
 const StudyPart = () => {
@@ -19,7 +26,7 @@ const StudyPart = () => {
       <p>Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
       <p>Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
         <video width="600" height="400" autoPlay style={{'pointer-events': 'none'}}>
-          <source src={podcastVideo} type="video/mp4" />
+          <source src={primaryContent} type="video/mp4" />
           {
             subtitles && <track
               label="en"
