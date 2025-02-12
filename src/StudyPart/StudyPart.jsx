@@ -1,9 +1,11 @@
 import React from 'react';
-import exampleSubtitles from "./MIB2-subtitles-pt-BR.vtt";
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from "../index";
 
 import primaryContent from "../videoAssets/primaryContent.mp4";
+import primaryContentSubtitles from "../videoAssets/primaryContent.vtt";
+
+//import exampleSubtitles from "./MIB2-subtitles-pt-BR.vtt";
 
 import minecraftCompanion1 from "../videoAssets/companionContent/minecraft1.mp4";
 import minecraftCompanion2 from "../videoAssets/companionContent/minecraft2.mp4";
@@ -20,19 +22,21 @@ const StudyPart = () => {
   const handleNavigate = () => {
     navigate('/posttestsurvey');
   };
+
+  console.log(primaryContentSubtitles);
   
   return (
     <div>
       <p>Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
       <p>Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
-        <video width="600" height="400" autoPlay style={{'pointer-events': 'none'}}>
+        <video width="600" height="400" autoPlay style={{'pointerEvents': 'none'}}>
           <source src={primaryContent} type="video/mp4" />
           {
             subtitles && <track
               label="en"
               kind="subtitles"
               srcLang="en"
-              src={exampleSubtitles}
+              src={primaryContentSubtitles}
               default />
           }
         </video>
