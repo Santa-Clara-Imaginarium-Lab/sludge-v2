@@ -1,0 +1,142 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    height: 100vh;
+    z-index: 0
+  }
+  
+.qualtrix-container {
+    text-align: center;
+    background-color: white;
+    border-radius: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  
+    justify-content: center; 
+    padding: 20px; 
+    position: relative; 
+    width: 90%;
+}
+
+.title {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+}
+      
+.description {
+    font-size: large;
+    color: #666;
+    margin-bottom: 20px;
+    text-align: left;
+    margin-left: 10px; 
+}
+      
+.qualtrix-grid {
+    display: grid;
+    grid-template-columns: 2fr repeat(7, 1fr); 
+    gap: 10px;
+    position: relative;
+}
+      
+.qualtrix-grid::before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background-color: #ddd;
+    left: calc(24%); 
+    top: 0;
+}
+      
+.qualtrix-grid::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: #ddd;
+    top: 48px; 
+    left: 0;
+}
+      
+.qualtrix-grid-header {
+    display: contents;
+}
+      
+.option-header {
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    position: relative;
+    margin-bottom: 20px;
+    font-size: large;
+    margin-left: 40px;
+}
+      
+.qualtrix-row {
+    display: contents;
+}
+      
+.statement {
+    text-align: left;
+    padding: 20px; 
+    font-size: large;
+    border-bottom: 1px solid #ddd;
+    min-height: 80px; 
+    display: flex; 
+    align-items: center; 
+}
+    
+input[type="radio"] {
+    display: none;
+}
+
+.circle {
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin-bottom: 0.5em;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+input[type="radio"]:checked + .circle {
+    background-color: #61dafb;
+    border-color: #61dafb;
+}
+
+.submit-button {
+    margin-top: 1em;
+    padding: 0.5em 1.5em;
+    background-color: #61dafb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    box-shadow: 0.3em 0.3em 0 0 #b3cad1;
+}
+
+.submit-button:active {
+    transform: translate(0.3em, 0.3em); 
+    box-shadow: 0em 0em 0 0; 
+}
+
+.circle-container {
+    margin-left: 40px;
+    display: flex; 
+    justify-content: left; 
+    align-items: center;
+}
+    
+.error-message {
+    color: red;
+    margin-top: 1em;
+    font-size: 1em;
+}
