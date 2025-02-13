@@ -10,13 +10,13 @@ const statements = [
 ];
 
 const options = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7"
+  "Strongly Disagree",
+  "Disagree",
+  "Somewhat Disagree",
+  "Neutral",
+  "Somewhat Agree",
+  "Agree",
+  "Strongly Agree"
 ];
 
 const PreTestSurvey = () => {

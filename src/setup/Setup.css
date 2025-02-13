@@ -1,0 +1,32 @@
+.checkbox-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center; 
+    cursor: pointer;
+}
+  
+.checkbox p {
+    margin: 0;
+    margin-left: 20px;
+    font-size: large;
+    font-weight: bold;
+}
+
+.checkbox input[type="checkbox"] {
+    transform: scale(1.7); 
+  }
+  
+  .checkbox input[type="checkbox"]:checked {
+    accent-color: #61dafb; 
+}
+
+.text {
+    font-size: large;
+}

@@ -26,9 +26,9 @@ const StudyPart = () => {
   console.log(primaryContentSubtitles);
   
   return (
-    <div>
-      <p>Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
-      <p>Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
+    <div className='container'>
+      <p className='text'>Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
+      <p className='text'>Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
         <video width="600" height="400" autoPlay style={{'pointerEvents': 'none'}}>
           <source src={primaryContent} type="video/mp4" />
           {
@@ -40,7 +40,7 @@ const StudyPart = () => {
               default />
           }
         </video>
-        <button className="button" onClick={handleNavigate}>PostTest Survey</button>
+        <button className="submit-button" onClick={handleNavigate}>PostTest Survey</button>
     </div>
   );
 };
