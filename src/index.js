@@ -6,6 +6,8 @@ import Setup from './setup/Setup';
 import PostTestSurvey from './postTestSurvey/PostTestSurvey';
 import PreTestSurvey from './preTestSurvey/PreTestSurvey';
 import StudyPart from './StudyPart/StudyPart';
+import Exit from './exit/Exit';
+
 import { createContext, useContext, useState } from "react";
 
 
@@ -31,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: '/studypart',
     element: <StudyPart />,
+  },
+  {
+    path: '/exit',
+    element: <Exit />,
   },
 ]);
 

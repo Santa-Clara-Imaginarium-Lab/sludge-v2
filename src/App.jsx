@@ -19,15 +19,36 @@ export const useAppContext = () => useContext(AppContext);
 
 function App() {
   const navigate = useNavigate();
+  const [userId, setUserId] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const value = e.target.value;
+    setUserId(value);
+    localStorage.setItem('userId', value); 
+  };
 
   const handleNavigate = () => {
+    if (!userId) {
+      alert("Please enter your participant ID.");
+      return;
+    }
     navigate('/setup');
   };
 
   return (
       <div className="container">
         <h1>Sludge V2</h1>
-        <button className="submit-button" onClick={handleNavigate}>Setup Page - for researcher</button>
+        <form onSubmit={handleSubmit} className="login-form">
+            <input
+              className="userid-input"
+              type="text"
+              placeholder="Enter your participant ID"
+              value={userId}
+              onChange={handleSubmit}
+            />
+          </form>
+        <button className="submit-button" onClick={handleNavigate}>Login</button>
       </div>
   );
 }

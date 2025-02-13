@@ -37,6 +37,7 @@ const PostTestSurvey = () => {
       return;
     }
     setError('');
+    navigate('/exit');
   };
 
   return (
