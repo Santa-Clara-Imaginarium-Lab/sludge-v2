@@ -25,9 +25,9 @@ function App() {
   };
 
   return (
-      <div className="App">
+      <div className="container">
         <h1>Sludge V2</h1>
-        <button className="button" onClick={handleNavigate}>Setup Page - for researcher</button>
+        <button className="submit-button" onClick={handleNavigate}>Setup Page - for researcher</button>
       </div>
   );
 }
