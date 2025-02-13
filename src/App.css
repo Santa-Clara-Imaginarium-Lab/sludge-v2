@@ -16,3 +16,15 @@
 .text {
   font-size: large;
 }
+
+.userid-input{
+  padding: 0.4em 1em;
+  font-size: large;
+  font-weight: bold;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  width: 250px;
+  transition: border-color 0.3s ease;
+  text-align: center;
+}
