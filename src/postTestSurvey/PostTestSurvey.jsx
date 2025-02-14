@@ -23,6 +23,7 @@ const PostTestSurvey = () => {
   const [responses, setResponses] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleOptionChange = (statementIndex, selectedOption) => {
     setResponses({
@@ -37,7 +38,33 @@ const PostTestSurvey = () => {
       return;
     }
     setError('');
-    navigate('/exit');
+    setLoading(true);
+
+    const userId = localStorage.getItem("userId");
+  
+    const formattedResponses = statements.map((_, index) => responses[index] || "N/A");
+  
+  
+    try {
+      const response = await fetch("http://localhost:3100/submit-post-survey", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, responses: formattedResponses }),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        console.log("Post-Test Survey submitted successfully!");
+        navigate('/exit');
+      } else {
+        setError("Error submitting survey. Please try again.");
+      }
+    } catch (error) {
+      console.error("Network Error:", error);
+      setError("Network error. Try again later.");
+    }
+  
+    setLoading(false);
   };
 
   return (

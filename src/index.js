@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import Setup from './setup/Setup';
-import PostTestSurvey from './postTestSurvey/PostTestSurvey';
-import PreTestSurvey from './preTestSurvey/PreTestSurvey';
-import StudyPart from './StudyPart/StudyPart';
-import Exit from './exit/Exit';
+import App from './App.jsx';
+import Setup from './setup/Setup.jsx';
+import PostTestSurvey from './postTestSurvey/PostTestSurvey.jsx';
+import PreTestSurvey from './preTestSurvey/PreTestSurvey.jsx';
+import StudyPart from './StudyPart/StudyPart.jsx';
+import Exit from './exit/Exit.jsx';
 
 import { createContext, useContext, useState } from "react";
 

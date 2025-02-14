@@ -28,7 +28,11 @@ npm install --force
 ### Step 3: Run Project
 
 Run the following command in the root directory:
+```bash
+node server.js
+```
 
+Create one more terminal and run this command in the root directory:
 ```bash
 npm start
 ```
