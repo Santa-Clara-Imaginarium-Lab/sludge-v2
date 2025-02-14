@@ -27,12 +27,7 @@ npm install --force
 
 ### Step 3: Run Project
 
-Navigate to /backend folder inside root directory and run this command:
-```bash
-node server.js
-```
-
-Create one more terminal and run this command in the root directory:
+Run this command in the root directory:
 ```bash
 npm start
 ```
