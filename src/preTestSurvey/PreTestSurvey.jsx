@@ -23,6 +23,7 @@ const PreTestSurvey = () => {
   const [responses, setResponses] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleOptionChange = (statementIndex, selectedOption) => {
     setResponses({
@@ -37,7 +38,33 @@ const PreTestSurvey = () => {
       return;
     }
     setError('');
-    navigate('/studypart');
+    setLoading(true);
+
+    const userId = localStorage.getItem("userId");
+
+    const formattedResponses = statements.map((_, index) => responses[index] || "N/A");
+    console.log("Sending Data:", { userId, responses: formattedResponses });
+
+    try {
+      const response = await fetch("http://localhost:3100/submit-pre-survey", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, formattedResponses }),
+      });
+
+      const data = await response.json();
+      if (data.success) {
+        console.log("Survey submitted successfully!");
+        navigate('/studypart');
+      } else {
+        setError("Error submitting survey. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setError("Network error. Try again later.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -75,8 +102,8 @@ const PreTestSurvey = () => {
           ))}
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button className="submit-button" onClick={handleSubmit}>
-          Submit
+        <button className="submit-button" onClick={handleSubmit} disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
         </button>
       </div>
     </div>
