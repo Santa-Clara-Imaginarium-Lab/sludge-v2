@@ -46,7 +46,7 @@ const PreTestSurvey = () => {
     console.log("Sending Data:", { userId, responses: formattedResponses });
 
     try {
-      const response = await fetch("http://localhost:3100/submit-pre-survey", {
+      const response = await fetch("https://sludge-v2.onrender.com/submit-pre-survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, formattedResponses }),

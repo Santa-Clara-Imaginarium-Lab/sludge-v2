@@ -46,7 +46,7 @@ const PostTestSurvey = () => {
   
   
     try {
-      const response = await fetch("http://localhost:3100/submit-post-survey", {
+      const response = await fetch("https://sludge-v2.onrender.com/submit-post-survey", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, responses: formattedResponses }),
