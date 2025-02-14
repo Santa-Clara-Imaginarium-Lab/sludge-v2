@@ -1,0 +1,38 @@
+.video-container {
+  display: flex;
+  flex-direction: column; /* Centers horizontally */
+  align-items: center; /* Aligns vertically */
+  gap: 0px; /* Space between videos */
+}
+
+.video-container video {
+  width: 90%; /* Adjust primary video size */
+  max-width: 600px; /* Set a max size */
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.companion-video {
+  width: 40%; /* Make it proportional */
+  max-width: 300px;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.submit-button {
+  background-color: #3db6fc;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.submit-button:hover {
+  background-color: #2496e5;
+}
