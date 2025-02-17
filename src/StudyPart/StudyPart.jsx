@@ -105,6 +105,18 @@ const StudyPart = () => {
       <button className="submit-button" onClick={handleNavigate}>
         PostTest Survey
       </button>
+      <script>
+        // Start WebGaze eye tracking
+          webgazer.setGazeListener((data, elapsedTime) => {
+              if (data) {
+                  console.log(`X: ${data.x}, Y: ${data.y}`); //not sure how best to save this
+              }
+          })
+      .showVideoPreview(false) // Hides the camera feed
+          .showFaceOverlay(false)  // Hides the face-tracking box
+          .showFaceFeedbackBox(false) // Hides face feedback
+      .begin();
+    </script>
     </div>
   );
 };
