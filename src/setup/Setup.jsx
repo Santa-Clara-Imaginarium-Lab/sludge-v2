@@ -6,8 +6,32 @@ import './Setup.css';
 const Setup = () => {
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate("/pretestsurvey");
+  const handleNavigate = async () => {
+    const setupData = [];
+    if (companionContent) setupData.push("Companion Content");
+    if (subtitles) setupData.push("Subtitles");
+
+    try {
+      const response = await fetch("https://sludge-v2.onrender.com/submit-setup", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: localStorage.getItem('userId'), // Assuming userId is stored in localStorage
+          setupData,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit setup data');
+      }
+
+      console.log("Setup data submitted successfully");
+      navigate("/socialmediahabits1");
+    } catch (error) {
+      console.error('Error submitting setup data:', error);
+    }
   };
 
   const { companionContent, setCompanionContent, subtitles, setSubtitles } = useAppContext();

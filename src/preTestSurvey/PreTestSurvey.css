@@ -39,7 +39,7 @@
       
 .qualtrix-grid {
     display: grid;
-    grid-template-columns: 2fr repeat(7, 1fr); 
+    grid-template-columns: 2fr repeat(6, 1fr); 
     gap: 10px;
     position: relative;
 }
@@ -50,7 +50,7 @@
     width: 2px;
     height: 100%;
     background-color: #ddd;
-    left: calc(21.5%);
+    left: calc(24.5%);
     top: 0;
 }
       
@@ -129,6 +129,10 @@ input[type="radio"]:checked + .circle {
     box-shadow: 0em 0em 0 0; 
 }
 
+.submit-button:hover {
+    background-color: #1ccdfe; /* Darker shade on hover */
+  }
+
 .circle-container {
     display: flex; 
     justify-content: center; 
@@ -140,3 +144,21 @@ input[type="radio"]:checked + .circle {
     margin-top: 1em;
     font-size: 1em;
 }
+
+.mews-grid {
+    display: grid;
+    grid-template-columns: 1fr repeat(4, 1fr); /* Adjust as needed */
+    gap: 10px;
+    position: relative;
+}
+
+.text-input{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: large;
+    margin-left: 8px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black; /* Optional: Add a bottom border for the line effect */
+    text-align: center; /* Center the text inside the input */
+  }
