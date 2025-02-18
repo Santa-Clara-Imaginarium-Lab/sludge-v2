@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PreTestSurvey.css';
+import '../PreTestSurvey.css';
 
 const statements = [
-  "Question 1",
-  "Question 2",
-  "Question 3",
-  "Question 4",
+  "I have difficulty slowing my thoughts down and focusing on one thing at a time.",
+  "I find it difficult to think clearly, as if my mind is in a fog.",
+  "I find myself flitting back and forth between different thoughts.",
+  "I use alcohol or other drugs to slow down my thoughts and stop constant 'mental chatter'.",
+  "I can only focus my thoughts on one thing at a time with considerable effort."
 ];
 
 const options = [
-  "Strongly Disagree",
-  "Disagree",
-  "Somewhat Disagree",
-  "Neutral",
-  "Somewhat Agree",
-  "Agree",
-  "Strongly Agree"
-];
+    "Not at all or rarely",
+    "Some of the time",
+    "Most of the time",
+    "Nearly all of the time or constantly"
+  ];
 
-const PreTestSurvey = () => {
+const MEWS3 = () => {
   const [responses, setResponses] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const userId = localStorage.getItem("userId");
 
   const handleOptionChange = (statementIndex, selectedOption) => {
     setResponses({
@@ -40,22 +39,17 @@ const PreTestSurvey = () => {
     setError('');
     setLoading(true);
 
-    const userId = localStorage.getItem("userId");
-
-    const formattedResponses = statements.map((_, index) => responses[index] || "N/A");
-    console.log("Sending Data:", { userId, responses: formattedResponses });
-
     try {
-      const response = await fetch("https://sludge-v2.onrender.com/submit-pre-survey", {
+      const response = await fetch("https://sludge-v2.onrender.com/mews3", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, formattedResponses }),
+        body: JSON.stringify({ userId, responses: Object.values(responses) }),
       });
 
       const data = await response.json();
       if (data.success) {
         console.log("Survey submitted successfully!");
-        navigate('/studypart');
+        navigate('/mood');
       } else {
         setError("Error submitting survey. Please try again.");
       }
@@ -70,11 +64,11 @@ const PreTestSurvey = () => {
   return (
       <div className="container">
       <div className="qualtrix-container">
-        <h1 className="title">Pre Test Survey</h1>
+        <h1 className="title">MEWS: Mind Excessively Wandering Scale</h1>
         <p className="description">
-          Please indicate the extent to which you agree or disagree with the following statements.
+          Please select the option that best reflects your experience for each statement.
         </p>
-        <div className="qualtrix-grid">
+        <div className="mews-grid">
           <div className="qualtrix-grid-header">
             <div className="header-empty"></div>
             {options.map((option, index) => (
@@ -110,4 +104,4 @@ const PreTestSurvey = () => {
 );
 };
 
-export default PreTestSurvey;
+export default MEWS3;

@@ -4,8 +4,17 @@ import './index.css';
 import App from './App.jsx';
 import Setup from './setup/Setup.jsx';
 import PostTestSurvey from './postTestSurvey/PostTestSurvey.jsx';
-import PreTestSurvey from './preTestSurvey/PreTestSurvey.jsx';
 import StudyPart from './StudyPart/StudyPart.jsx';
+import SocialMediaHabits1 from './preTestSurvey/socialMediaHabits/SocialMediaHabits1.jsx';
+import SocialMediaHabits2 from './preTestSurvey/socialMediaHabits/SocialMediaHabits2.jsx';
+import SocialMediaHabits3 from './preTestSurvey/socialMediaHabits/SocialMediaHabits3.jsx';
+import MAASLO1 from './preTestSurvey/everydayAttentionalFailures/MAASLO1.jsx';
+import MAASLO2 from './preTestSurvey/everydayAttentionalFailures/MAASLO2.jsx';
+import MAASLO3 from './preTestSurvey/everydayAttentionalFailures/MAASLO3.jsx';
+import MEWS1 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS1.jsx';
+import MEWS2 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS2.jsx';
+import MEWS3 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS3.jsx';
+import CurrentMood from './preTestSurvey/CurrentMood.jsx';
 import Exit from './exit/Exit.jsx';
 
 import { createContext, useContext, useState } from "react";
@@ -23,16 +32,52 @@ const router = createBrowserRouter([
     element: <Setup />,
   },
   {
-    path: '/pretestsurvey',
-    element: <PreTestSurvey />,
-  },
-  {
     path: '/posttestsurvey',
     element: <PostTestSurvey />,
   },
   {
+    path: '/socialmediahabits1',
+    element: <SocialMediaHabits1 />,
+  },
+  {
+    path: '/socialmediahabits2',
+    element: <SocialMediaHabits2 />,
+  },
+  {
+    path: '/socialmediahabits3',
+    element: <SocialMediaHabits3 />,
+  },
+  {
+    path: '/maaslo1',
+    element: <MAASLO1 />,
+  },
+  {
+    path: '/maaslo2',
+    element: <MAASLO2 />,
+  },
+  {
+    path: '/mews1',
+    element: <MEWS1 />,
+  },
+  {
+    path: '/mews2',
+    element: <MEWS2 />,
+  },
+  {
+    path: '/mews3',
+    element: <MEWS3 />,
+  },
+  {
+    path: '/maaslo3',
+    element: <MAASLO3 />,
+  },
+  {
     path: '/studypart',
     element: <StudyPart />,
+  },
+  {
+    path: '/mood',
+    element: <CurrentMood />,
   },
   {
     path: '/exit',
