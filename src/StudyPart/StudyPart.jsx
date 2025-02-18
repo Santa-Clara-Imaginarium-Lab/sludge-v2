@@ -23,7 +23,7 @@ const companionVideos = [
 ];
 
 const StudyPart = () => {
-  const { subtitles } = useAppContext();
+  const { companionContent, subtitles } = useAppContext();
   const navigate = useNavigate();
 
   const [selectedCompanion, setSelectedCompanion] = useState(null);
@@ -31,13 +31,15 @@ const StudyPart = () => {
   const primaryVideoRef = useRef(null);
   const companionVideoRef = useRef(null);
 
-  // Pick a random companion video when the component mounts
   useEffect(() => {
-    const randomIndex = Math.floor(Math.random() * companionVideos.length);
-    setSelectedCompanion(companionVideos[randomIndex]);
-  }, []);
+    if (companionContent) {
+      const randomIndex = Math.floor(Math.random() * companionVideos.length);
+      setSelectedCompanion(companionVideos[randomIndex]);
+    } else {
+      setSelectedCompanion(null);
+    }
+  }, [companionContent]);
 
-  // Sync companion video with primary video
   useEffect(() => {
     if (primaryVideoRef.current && companionVideoRef.current) {
       const syncVideos = () => {
@@ -45,12 +47,12 @@ const StudyPart = () => {
       };
 
       primaryVideoRef.current.addEventListener("play", () => {
-        companionVideoRef.current.play();
+        companionVideoRef.current?.play();
         syncVideos();
       });
 
       primaryVideoRef.current.addEventListener("pause", () => {
-        companionVideoRef.current.pause();
+        companionVideoRef.current?.pause();
       });
 
       primaryVideoRef.current.addEventListener("seeked", syncVideos);
@@ -63,17 +65,53 @@ const StudyPart = () => {
     }
   }, [selectedCompanion]);
 
-  const handleStartVideos = () => {
-    if (primaryVideoRef.current && companionVideoRef.current) {
-      primaryVideoRef.current.play();
-      companionVideoRef.current.play();
-      setVideosStarted(true);
+  useEffect(() => {
+    if (window.webgazer) {
+      window.webgazer
+        .setGazeListener((data, elapsedTime) => {
+          if (data) {
+            console.log(`X: ${data.x}, Y: ${data.y}`);
+          }
+        })
+        .saveDataAcrossSessions(true)
+        .showPredictionPoints(true)
+        .showVideoPreview(true)
+        .showFaceOverlay(true)
+        .showFaceFeedbackBox(true)
+        .begin();
+  
+      // // Optionally, show calibration points:
+      // window.webgazer.showCalibrationPoint(true);
+    } else {
+      console.warn("WebGazer not available!");
     }
+  
+    return () => {
+      if (window.webgazer) {
+        try {
+          if (window.webgazer.isReady()) {
+            window.webgazer.end();
+          }
+        } catch (err) {
+          console.warn("webgazer.end() cleanup failed:", err);
+        }
+      }
+    };
+  }, []);
+  
+  const handleStartVideos = () => {
+    if (primaryVideoRef.current) {
+      primaryVideoRef.current.play();
+    }
+    if (companionContent && companionVideoRef.current) {
+      companionVideoRef.current.play();
+    }
+    setVideosStarted(true);
   };
+
   const handleNavigate = () => {
     navigate("/posttestsurvey");
   };
-  
 
   return (
     <div className="container">
@@ -86,7 +124,7 @@ const StudyPart = () => {
       )}
 
       <div className="video-container">
-        {/* Primary Video (Requires user to start) */}
+        {/* Primary Video */}
         <video ref={primaryVideoRef} className="primary-video" width="600" height="400" controls>
           <source src={primaryContent} type="video/mp4" />
           {subtitles && (
@@ -94,8 +132,8 @@ const StudyPart = () => {
           )}
         </video>
 
-        {/* Companion Video (Muted) */}
-        {selectedCompanion && (
+        {/* Companion Video (only if companionContent is enabled) */}
+        {companionContent && selectedCompanion && (
           <video ref={companionVideoRef} className="companion-video" width="600" height="400" muted>
             <source src={selectedCompanion} type="video/mp4" />
           </video>
@@ -105,21 +143,8 @@ const StudyPart = () => {
       <button className="submit-button" onClick={handleNavigate}>
         PostTest Survey
       </button>
-      <script>
-        // Start WebGaze eye tracking
-          webgazer.setGazeListener((data, elapsedTime) => {
-              if (data) {
-                  console.log(`X: ${data.x}, Y: ${data.y}`); //not sure how best to save this
-              }
-          })
-      .showVideoPreview(false) // Hides the camera feed
-          .showFaceOverlay(false)  // Hides the face-tracking box
-          .showFaceFeedbackBox(false) // Hides face feedback
-      .begin();
-    </script>
     </div>
   );
 };
 
 export default StudyPart;
-
