@@ -53,7 +53,7 @@ function SocialMediaHabits3() {
           <h2 className="brief-subtitle">How many hours per week do you estimate that you spend using social media?</h2>
           <div className="survey-options">
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Social interaction"
@@ -63,7 +63,7 @@ function SocialMediaHabits3() {
               <p>Social interaction</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Information seeking"
@@ -73,7 +73,7 @@ function SocialMediaHabits3() {
               <p>Information seeking</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Passing time"
@@ -83,7 +83,7 @@ function SocialMediaHabits3() {
               <p>Passing time</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Entertainment"
@@ -93,7 +93,7 @@ function SocialMediaHabits3() {
               <p>Entertainment</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Relaxation"
@@ -103,7 +103,7 @@ function SocialMediaHabits3() {
               <p>Relaxation</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Expression of opinions"
@@ -113,7 +113,7 @@ function SocialMediaHabits3() {
               <p>Expression of opinions</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Information sharing"
@@ -123,7 +123,7 @@ function SocialMediaHabits3() {
               <p>Information sharing</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Knowledge of others"
@@ -133,7 +133,7 @@ function SocialMediaHabits3() {
               <p>Knowledge of others</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Multitasking"
