@@ -152,6 +152,13 @@ input[type="radio"]:checked + .circle {
     position: relative;
 }
 
+.videoengagement-grid {
+    display: grid;
+    grid-template-columns: 1fr repeat(7, 1fr); /* Adjust as needed */
+    gap: 10px;
+    position: relative;
+}
+
 .text-input{
     margin-top: 20px;
     margin-bottom: 20px;

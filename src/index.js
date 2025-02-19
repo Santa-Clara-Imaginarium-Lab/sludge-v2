@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 import Setup from './setup/Setup.jsx';
-import PostTestSurvey from './postTestSurvey/PostTestSurvey.jsx';
 import StudyPart from './StudyPart/StudyPart.jsx';
 import SocialMediaHabits1 from './preTestSurvey/socialMediaHabits/SocialMediaHabits1.jsx';
 import SocialMediaHabits2 from './preTestSurvey/socialMediaHabits/SocialMediaHabits2.jsx';
@@ -15,6 +14,11 @@ import MEWS1 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS1.jsx';
 import MEWS2 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS2.jsx';
 import MEWS3 from './preTestSurvey/mindExcessivelyWanderingScale/MEWS3.jsx';
 import CurrentMood from './preTestSurvey/CurrentMood.jsx';
+import VideoEngagement from './postTestSurvey/VideoEngagement.jsx';
+import DemographicQuestion1 from './postTestSurvey/DemographicQuestion1.jsx'
+import DemographicQuestion2 from './postTestSurvey/DemographicQuestion2.jsx';
+import DemographicQuestion3 from './postTestSurvey/DemographicQuestion3.jsx';
+import DemographicQuestion4 from './postTestSurvey/DemographicQuestion4.jsx';
 import Exit from './exit/Exit.jsx';
 
 import { createContext, useContext, useState } from "react";
@@ -32,8 +36,8 @@ const router = createBrowserRouter([
     element: <Setup />,
   },
   {
-    path: '/posttestsurvey',
-    element: <PostTestSurvey />,
+    path: '/videoengagement',
+    element: <VideoEngagement />,
   },
   {
     path: '/socialmediahabits1',
@@ -78,6 +82,22 @@ const router = createBrowserRouter([
   {
     path: '/mood',
     element: <CurrentMood />,
+  },
+  {
+    path: '/demographicques1',
+    element: <DemographicQuestion1 />,
+  },
+  {
+    path: '/demographicques2',
+    element: <DemographicQuestion2 />,
+  },
+  {
+    path: '/demographicques3',
+    element: <DemographicQuestion3 />,
+  },
+  {
+    path: '/demographicques4',
+    element: <DemographicQuestion4 />,
   },
   {
     path: '/exit',
