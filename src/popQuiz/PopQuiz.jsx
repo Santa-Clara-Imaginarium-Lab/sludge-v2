@@ -74,8 +74,6 @@ function PopQuiz() {
 
     return (
         <div className="container">
-            {/* Display the current score */}
-            <h3>Score: {score}</h3>
             <div className='demographic-container'>
                 {/* Displaying the current question and options */}
                 <h2 className='question' style={{ textAlign: 'left' }}>{questions[currentQuestionIndex].question}</h2>

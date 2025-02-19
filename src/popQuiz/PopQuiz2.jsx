@@ -37,7 +37,7 @@ function PopQuiz2() {
         }
 
         console.log("Demographic data updated successfully");
-        navigate('/'); 
+        navigate('/exit'); 
       } catch (error) {
         console.error('Error updating demographic data:', error);
         setShowError(true); 
