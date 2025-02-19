@@ -25,6 +25,7 @@ import QuizNav from './popQuiz/QuizNav.jsx';
 import Prompt1 from './setup/Prompt1.jsx';
 import Prompt2 from './preTestSurvey/Prompt2.jsx';
 import Prompt3 from './popQuiz/Prompt3.jsx';
+import Exit from './popQuiz/Exit.jsx';
 
 import { createContext, useContext, useState } from "react";
 
@@ -127,6 +128,10 @@ const router = createBrowserRouter([
   {
     path: '/popquiz2',
     element: <PopQuiz2 />,
+  },
+  {
+    path: '/exit',
+    element: <Exit />,
   },
 ]);
 
