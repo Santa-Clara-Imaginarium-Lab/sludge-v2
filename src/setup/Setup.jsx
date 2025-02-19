@@ -65,7 +65,7 @@ const Setup = () => {
       <p className="text">Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
 
       <button className="submit-button" onClick={handleNavigate}>
-        PreTest Survey
+        Take the Pre-Test Survey
       </button>
     </div>
   );
