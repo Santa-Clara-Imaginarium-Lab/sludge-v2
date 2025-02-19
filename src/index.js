@@ -21,6 +21,7 @@ import DemographicQuestion3 from './postTestSurvey/DemographicQuestion3.jsx';
 import DemographicQuestion4 from './postTestSurvey/DemographicQuestion4.jsx';
 import PopQuiz2 from './popQuiz/PopQuiz2.jsx';
 import PopQuiz from './popQuiz/PopQuiz.jsx';
+import QuizNav from './popQuiz/QuizNav.jsx';
 
 import { createContext, useContext, useState } from "react";
 
@@ -99,6 +100,10 @@ const router = createBrowserRouter([
   {
     path: '/demographicques4',
     element: <DemographicQuestion4 />,
+  },
+  {
+    path: '/quiznav',
+    element: <QuizNav />,
   },
   {
     path: '/popquiz',
