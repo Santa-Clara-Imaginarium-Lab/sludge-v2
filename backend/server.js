@@ -513,6 +513,147 @@ app.post('/mood', async (req, res) => {
   }
 });
 
+app.post("/demographicques1", async (req, res) => {
+  try {
+    console.log("🔍 Received Demographic Data:", req.body);
+    const { userId, gender } = req.body;
+
+    if (!userId || !gender) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Demographics", ["User ID", "Timestamp", "Gender", "Age", "Ethnicity", "AcademicYear"]);
+
+    const existingHeaders = sheet.headerValues || [];
+    const requiredHeaders = ["User ID", "Timestamp", "Gender", "Age", "Ethnicity", "AcademicYear"];
+    const missingHeaders = requiredHeaders.filter(header => !existingHeaders.includes(header));
+
+    if (missingHeaders.length > 0) {
+      // Add missing headers
+      await sheet.setHeaderRow(requiredHeaders);
+      console.log(`Added missing headers to sheet: ${missingHeaders.join(", ")}`);
+    }
+
+    const rowData = {
+      "User ID": userId,
+      Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
+      Gender: gender,
+    };
+
+    await sheet.addRow(rowData);
+    console.log("Successfully stored Demographic Data:", rowData);
+    res.status(200).json({ success: true, message: "Demographic data submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/demographicques2", async (req, res) => {
+  try {
+    console.log("🔍 Received Age Data:", req.body);
+    const { userId, age } = req.body;
+
+    if (!userId || !age) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Demographics", ["User ID", "Timestamp", "Gender", "Age", "Ethnicity", "AcademicYear"]);
+
+    const rows = await sheet.getRows();
+    const existingRows = rows.filter(row => row["User ID"] === userId);
+    const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0];
+
+    if (latestRow) {
+      latestRow.Age = age;
+      await latestRow.save();
+      console.log("Successfully updated Age Data:", latestRow);
+    } else {
+      console.error("No existing row found for userId:", userId);
+      return res.status(404).json({ success: false, error: "No existing row found" });
+    }
+
+    res.status(200).json({ success: true, message: "Age data submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/demographicques3", async (req, res) => {
+  try {
+    console.log("🔍 Received Ethnicity Data:", req.body);
+    const { userId, ethnicity } = req.body;
+
+    if (!userId || !ethnicity) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Demographics", ["User ID", "Timestamp", "Gender", "Age", "Ethnicity", "AcademicYear"]);
+
+    const rows = await sheet.getRows();
+    const existingRows = rows.filter(row => row["User ID"] === userId);
+    const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0]; 
+
+    if (latestRow) {
+      latestRow.Ethnicity = ethnicity.join(", "); 
+      await latestRow.save();
+      console.log("Successfully updated Ethnicity Data:", latestRow);
+    } else {
+      console.error("No existing row found for userId:", userId);
+      return res.status(404).json({ success: false, error: "No existing row found" });
+    }
+
+    res.status(200).json({ success: true, message: "Ethnicity data submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/demographicques4", async (req, res) => {
+  try {
+    console.log("🔍 Received Academic Year Data:", req.body);
+    const { userId, academicYear } = req.body;
+
+    if (!userId || !academicYear) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Demographics", ["User ID", "Timestamp", "Gender", "Age", "Ethnicity", "AcademicYear"]);
+
+    // Find the latest row with the given userId
+    const rows = await sheet.getRows();
+    const existingRows = rows.filter(row => row["User ID"] === userId);
+    console.log("Existing Rows for User ID:", existingRows); 
+
+    const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0];
+    console.log("Latest Row:", latestRow); 
+
+    if (latestRow) {
+
+      latestRow.AcademicYear = academicYear; 
+      await latestRow.save();
+      console.log("Successfully updated Academic Year Data:", latestRow);
+    } else {
+      console.error("No existing row found for userId:", userId);
+      return res.status(404).json({ success: false, error: "No existing row found" });
+    }
+
+    res.status(200).json({ success: true, message: "Academic year data submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

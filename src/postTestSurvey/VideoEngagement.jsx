@@ -3,23 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import '../preTestSurvey/PreTestSurvey.css';
 
 const statements = [
-  "Question 1",
-  "Question 2",
-  "Question 3",
-  "Question 4",
+  "To what degree did you find this video engaging or not engaging?",
+  "To what degree did you find this video satisfying or not satisfying?",
+  "How easy or difficult is it to understand the content in the video?",
 ];
 
 const options = [
-  "Strongly Disagree",
-  "Disagree",
-  "Somewhat Disagree",
-  "Neutral",
-  "Somewhat Agree",
-  "Agree",
-  "Strongly Agree"
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7"
 ];
 
-const PostTestSurvey = () => {
+const VideoEngagement = () => {
   const [responses, setResponses] = useState({});
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -74,7 +73,7 @@ const PostTestSurvey = () => {
         <p className="description">
           Please indicate the extent to which you agree or disagree with the following statements.
         </p>
-        <div className="qualtrix-grid">
+        <div className="videoengagement-grid">
           <div className="qualtrix-grid-header">
             <div className="header-empty"></div>
             {options.map((option, index) => (
@@ -110,4 +109,4 @@ const PostTestSurvey = () => {
 );
 };
 
-export default PostTestSurvey;
+export default VideoEngagement;

@@ -1,0 +1,87 @@
+Tutorial.css
+.tutorial-container {
+    background-color: var(--background-one);
+  }
+
+  .demographic-container {
+    background-color: white;
+    border-radius: 3em;
+    box-shadow: 10px 10px 0 0 var(--accent-one);
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* Center align content horizontally */
+    justify-content: center;  /* Center align content vertically */
+    position: relative; /* Position context for the shadow */
+    width: 50%;
+  }
+  
+  .brief-subtitle {
+    margin: 20px;
+    margin-bottom: 1em;
+    font-size: 30px;
+  }
+  
+  .demographic-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  .demographic-option {
+      display: flex; /* Use flexbox to align items */
+      align-items: center; /* Center align items vertically */
+  }
+
+  .demographic-option p {
+    margin: 0;
+    margin-left: 20px;
+    font-size: large;
+    font-weight: bold;
+  }
+  
+  input[type="radio"] {
+    display: none;
+}
+
+  .demographic-circle {
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    margin-bottom: 0px;
+    display: inline-block;
+    transition: background-color 0.3s;
+  }
+
+  input[type="radio"]:checked + .demographic-circle {
+    background-color: #61dafb;
+    border-color: #61dafb;
+  }
+
+  .gender-input{
+    font-family: var(--universal-font);
+    font-size: large;
+    margin-left: 8px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black; 
+  }
+  
+  .age-input{
+    font-family: var(--universal-font);
+    font-size: large;
+    margin-left: 8px;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid black;
+    text-align: center; /* Center the text inside the input */
+  }
+
+  .demographic-option input[type="checkbox"] {
+    transform: scale(1.7); 
+  }
+  
+  .demographic-option input[type="checkbox"]:checked {
+    accent-color: #61dafb; 
+}
