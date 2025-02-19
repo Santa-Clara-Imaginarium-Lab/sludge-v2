@@ -103,9 +103,9 @@ app.post("/maaslo1", async (req, res) => {
   }
 });
 
-app.post("/submit-post-survey", async (req, res) => {
+app.post("/videoengagement", async (req, res) => {
   try {
-    console.log("🔍 Received Post-Test Data:", req.body);
+    console.log("🔍 Received Video Engagement Data:", req.body);
     const { userId, responses } = req.body;
 
     if (!userId || !responses || !Array.isArray(responses) || responses.length === 0) {
@@ -113,31 +113,19 @@ app.post("/submit-post-survey", async (req, res) => {
       return res.status(400).json({ success: false, error: "Invalid request format" });
     }
 
-    const sheet = await getGoogleSheet("Post-Test Survey", ["User ID", "Timestamp", "Statement 1", "Statement 2", "Statement 3", "Statement 4", "Statement 5", "Statement 6", "Statement 7", "Statement 8", "Statement 9", "Statement 10", "Statement 11", "Statement 12", "Statement 13", "Statement 14", "Statement 15"]);
+    const sheet = await getGoogleSheet("Video Engagement & Satisfaction", ["User ID", "Timestamp", "Statement 1", "Statement 2", "Statement 3"]);
 
     const rowData = {
       "User ID": userId,
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Statement 1": responses[0] || "N/A",
       "Statement 2": responses[1] || "N/A",
-      "Statement 3": responses[2] || "N/A",
-      "Statement 4": responses[3] || "N/A",
-      "Statement 5": responses[4] || "N/A",
-      "Statement 6": responses[5] || "N/A",
-      "Statement 7": responses[6] || "N/A",
-      "Statement 8": responses[7] || "N/A",
-      "Statement 9": responses[8] || "N/A",
-      "Statement 10": responses[9] || "N/A",
-      "Statement 11": responses[10] || "N/A",
-      "Statement 12": responses[11] || "N/A",
-      "Statement 13": responses[12] || "N/A",
-      "Statement 14": responses[13] || "N/A",
-      "Statement 15": responses[14] || "N/A",
+      "Statement 3": responses[2] || "N/A"
     };
 
     await sheet.addRow(rowData);
-    console.log("Successfully stored Post-Test Data:", rowData);
-    res.status(200).json({ success: true, message: "Post-Test Survey submitted!" });
+    console.log("Successfully stored Video Engagement Data:", rowData);
+    res.status(200).json({ success: true, message: "Video Engagement Survey submitted!" });
 
   } catch (error) {
     console.error("Internal Server Error:", error);
