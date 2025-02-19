@@ -7,6 +7,7 @@ function SocialMediaHabits1() {
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [showError, setShowError] = useState(false);
     const userId = localStorage.getItem('userId'); 
+    const [otherText, setOtherText] = useState('');
 
     const handleOptionChange = (event) => {
       const value = event.target.value;
@@ -15,6 +16,10 @@ function SocialMediaHabits1() {
       setSelectedOptions(prev => 
         prev.includes(value) ? prev.filter(option => option !== value) : [...prev, value]
       );
+
+      if (value === "Other") {
+        setOtherText('');
+      }
     };
 
     const handleClick = async () => {
@@ -22,6 +27,10 @@ function SocialMediaHabits1() {
         setShowError(true);
         return;
       }
+
+      const finalSocialMedia = selectedOptions.includes("Other") 
+      ? [...selectedOptions.filter(option => option !== "Other"), otherText] 
+      : selectedOptions;
 
       try {
         const response = await fetch("https://sludge-v2.onrender.com/social-media-habits-1", {
@@ -31,7 +40,7 @@ function SocialMediaHabits1() {
           },
           body: JSON.stringify({
             userId,
-            platforms: selectedOptions,
+            platforms: finalSocialMedia,
           }),
         });
 
@@ -119,7 +128,17 @@ function SocialMediaHabits1() {
                 checked={selectedOptions.includes("Other")}
                 onChange={handleOptionChange}
               />
-              <p>Other</p>
+              <p>Other (Please specify)</p>
+              <input
+                type="text"
+                className="gender-input"
+                value={otherText}
+                onChange={(e) => {
+                  handleOptionChange({ target: { value: "Other" } });
+                  setSelectedOptions(prev => [...prev, "Other"]);
+                  setOtherText(e.target.value);
+                }}
+              />
             </label>
 
           </div>
