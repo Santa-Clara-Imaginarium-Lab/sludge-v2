@@ -644,7 +644,7 @@ app.post("/demographicques4", async (req, res) => {
 });
 
 app.post('/popquiz', async (req, res) => {
-    const { userId, answers } = req.body;
+    const { userId, answers, score } = req.body;
 
     try {
         const sheet = await getGoogleSheet("PopQuiz", [
@@ -660,7 +660,8 @@ app.post('/popquiz', async (req, res) => {
             "Question 8", 
             "Question 9", 
             "Question 10", 
-            "Question 11"
+            "Question 11",
+            "Score (Out of 10)"
         ]);
 
         // Prepare the row data
@@ -670,7 +671,8 @@ app.post('/popquiz', async (req, res) => {
             ...answers.reduce((acc, answer, index) => {
                 acc[`Question ${index + 1}`] = answer; 
                 return acc;
-            }, {})
+            }, {}),
+            "Score (Out of 10)": score,
         };
 
         // Add the row to the sheet
