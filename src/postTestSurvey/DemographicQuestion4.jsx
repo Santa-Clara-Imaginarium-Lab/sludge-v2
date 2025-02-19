@@ -40,7 +40,7 @@ function DemographicQuestion4() {
         }
 
         console.log("Academic year data saved successfully");
-        navigate('/exit'); 
+        navigate('/popquiz'); 
       } catch (error) {
         console.error('Error saving academic year data:', error);
         setShowError(true); 

@@ -69,9 +69,9 @@ const VideoEngagement = () => {
   return (
       <div className="container">
       <div className="qualtrix-container">
-        <h1 className="title">Post Test Survey</h1>
+        <h1 className="title">Video Engagement and Satisfaction</h1>
         <p className="description">
-          Please indicate the extent to which you agree or disagree with the following statements.
+        Regarding the video you just watched,
         </p>
         <div className="videoengagement-grid">
           <div className="qualtrix-grid-header">

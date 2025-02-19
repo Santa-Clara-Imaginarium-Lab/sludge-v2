@@ -20,6 +20,10 @@ Tutorial.css
     margin-bottom: 1em;
     font-size: 30px;
   }
+
+  .question {
+    text-align: left;
+  }
   
   .demographic-options {
     display: flex;
@@ -69,13 +73,20 @@ Tutorial.css
   }
   
   .age-input{
-    font-family: var(--universal-font);
     font-size: large;
     margin-left: 8px;
     border: none;
     outline: none;
     border-bottom: 1px solid black;
     text-align: center; /* Center the text inside the input */
+  }
+
+  .ans-input {
+    font-size: large;
+    outline: none;
+    height: 200px; /* Adjust height as needed */
+    width: 90%;
+    resize: vertical; /* Allow vertical resizing */
   }
 
   .demographic-option input[type="checkbox"] {
