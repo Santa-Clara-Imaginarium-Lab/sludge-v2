@@ -22,7 +22,8 @@ import DemographicQuestion4 from './postTestSurvey/DemographicQuestion4.jsx';
 import PopQuiz2 from './popQuiz/PopQuiz2.jsx';
 import PopQuiz from './popQuiz/PopQuiz.jsx';
 import QuizNav from './popQuiz/QuizNav.jsx';
-import Prompt from './popQuiz/Prompt.jsx';
+import Prompt1 from './preTestSurvey/Prompt1.jsx';
+import Prompt2 from './popQuiz/Prompt2.jsx';
 
 import { createContext, useContext, useState } from "react";
 
@@ -103,8 +104,12 @@ const router = createBrowserRouter([
     element: <DemographicQuestion4 />,
   },
   {
-    path: '/prompt',
-    element: <Prompt />,
+    path: '/prompt1',
+    element: <Prompt1 />,
+  },
+  {
+    path: '/prompt2',
+    element: <Prompt2 />,
   },
   {
     path: '/quiznav',

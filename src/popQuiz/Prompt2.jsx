@@ -2,7 +2,7 @@ import React from 'react';
 import '../postTestSurvey/PostTestSurvey.css'; 
 import { useNavigate } from 'react-router-dom';
 
-function Prompt() {
+function Prompt2() {
     const navigate = useNavigate();
   
     const handleNavigate = () => {
@@ -17,4 +17,4 @@ function Prompt() {
     );
 }
 
-export default Prompt;
+export default Prompt2;
