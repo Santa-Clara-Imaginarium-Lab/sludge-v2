@@ -28,7 +28,7 @@ const CurrentMood = () => {
       });
 
       if (response.ok) {
-        navigate('/prompt1');
+        navigate('/prompt2');
       } else {
         setError('Failed to record mood');
       }
