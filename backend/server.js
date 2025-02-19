@@ -655,6 +655,88 @@ app.post("/demographicques4", async (req, res) => {
   }
 });
 
+app.post('/popquiz', async (req, res) => {
+    const { userId, answers } = req.body;
+
+    try {
+        const sheet = await getGoogleSheet("PopQuiz", [
+            "userId", 
+            "Timestamp", 
+            "Question 1", 
+            "Question 2", 
+            "Question 3", 
+            "Question 4", 
+            "Question 5", 
+            "Question 6", 
+            "Question 7", 
+            "Question 8", 
+            "Question 9", 
+            "Question 10", 
+            "Question 11"
+        ]);
+
+        // Prepare the row data
+        const rowData = {
+            "userId": userId,
+            "Timestamp": new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
+            ...answers.reduce((acc, answer, index) => {
+                acc[`Question ${index + 1}`] = answer; 
+                return acc;
+            }, {})
+        };
+
+        // Add the row to the sheet
+        await sheet.addRow(rowData);
+        console.log("Quiz data saved successfully:", rowData);
+        res.status(200).json({ success: true, message: "Quiz data saved successfully." });
+    } catch (error) {
+        console.error('Error saving quiz data:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
+app.post('/popquiz2', async (req, res) => {
+    const { userId, answer } = req.body;
+
+    try {
+        // Get the PopQuiz sheet
+        const sheet = await getGoogleSheet("PopQuiz", [
+            "userId", 
+            "Timestamp", 
+            "Question 1", 
+            "Question 2", 
+            "Question 3", 
+            "Question 4", 
+            "Question 5", 
+            "Question 6", 
+            "Question 7", 
+            "Question 8", 
+            "Question 9", 
+            "Question 10", 
+            "Question 11"
+        ]);
+
+        // Find the latest row for the given userId
+        const rows = await sheet.getRows();
+        const existingRows = rows.filter(row => row.userId === userId);
+        const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0]; // Sort by Timestamp
+
+        if (latestRow) {
+            // Update the latest row with the answer for Question 11
+            latestRow["Question 11"] = answer;
+            await latestRow.save();
+            console.log("Question 11 updated successfully for userId:", userId);
+            res.status(200).json({ success: true, message: "Question 11 updated successfully." });
+        } else {
+            console.error("No existing row found for userId:", userId);
+            res.status(404).json({ success: false, error: "No existing row found for userId." });
+        }
+    } catch (error) {
+        console.error('Error updating Question 11:', error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
