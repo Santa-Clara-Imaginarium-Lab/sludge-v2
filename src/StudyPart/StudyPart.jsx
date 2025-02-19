@@ -117,10 +117,9 @@ const StudyPart = () => {
 
   return (
     <div className="container">
-      <h2>Study</h2>
 
       {!videosStarted && (
-        <button className="start-button" onClick={handleStartVideos}>
+        <button className="submit-button" onClick={handleStartVideos}>
           Start Videos
         </button>
       )}
