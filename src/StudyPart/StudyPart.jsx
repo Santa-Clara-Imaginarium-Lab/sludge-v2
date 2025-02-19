@@ -110,7 +110,7 @@ const StudyPart = () => {
   };
 
   const handleNavigate = () => {
-    navigate("/posttestsurvey");
+    navigate("/videoengagement");
   };
 
   return (

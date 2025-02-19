@@ -54,7 +54,7 @@ const VideoEngagement = () => {
       const data = await response.json();
       if (data.success) {
         console.log("Post-Test Survey submitted successfully!");
-        navigate('/exit');
+        navigate('/demographicques1');
       } else {
         setError("Error submitting survey. Please try again.");
       }
