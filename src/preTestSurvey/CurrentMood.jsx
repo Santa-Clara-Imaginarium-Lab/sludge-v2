@@ -28,7 +28,7 @@ const CurrentMood = () => {
       });
 
       if (response.ok) {
-        navigate('/studypart');
+        navigate('/prompt1');
       } else {
         setError('Failed to record mood');
       }
