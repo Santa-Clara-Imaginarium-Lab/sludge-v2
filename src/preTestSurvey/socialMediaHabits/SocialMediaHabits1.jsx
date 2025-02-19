@@ -71,7 +71,7 @@ function SocialMediaHabits1() {
               <p>TikTok</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Instagram"
@@ -81,7 +81,7 @@ function SocialMediaHabits1() {
               <p>Instagram</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="SnapChat"
@@ -91,7 +91,7 @@ function SocialMediaHabits1() {
               <p>SnapChat</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="X"
@@ -101,7 +101,7 @@ function SocialMediaHabits1() {
               <p>X</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Facebook"
@@ -111,7 +111,7 @@ function SocialMediaHabits1() {
               <p>Facebook</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="YouTube"
@@ -121,7 +121,7 @@ function SocialMediaHabits1() {
               <p>YouTube</p>
             </label>
 
-            <label className="survey-option">
+            <label className="checkbox">
               <input
                 type="checkbox"
                 value="Other"
