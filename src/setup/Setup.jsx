@@ -28,7 +28,7 @@ const Setup = () => {
       }
 
       console.log("Setup data submitted successfully");
-      navigate("/socialmediahabits1");
+      navigate("/prompt1");
     } catch (error) {
       console.error('Error submitting setup data:', error);
     }
@@ -38,10 +38,19 @@ const Setup = () => {
 
   return (
     <div className="container">
-      <h1>Setup Page</h1>
-      <p className="text">This is the setup page for the researcher.</p>
-      <p className="text">Choose below which participant type is continuing with the study</p>
+      <h1>Please call the researcher for the Setup</h1>
+      <p className="text">Choose the settings below for the study.</p>
       <div className="checkbox-options">
+
+      <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={subtitles}
+            onChange={() => setSubtitles(!subtitles)}
+          />
+          <p>Subtitles</p>
+        </label>
+        
         <label className="checkbox">
           <input
             type="checkbox"
@@ -51,21 +60,14 @@ const Setup = () => {
           <p>Companion Content</p>
         </label>
 
-        <label className="checkbox">
-          <input
-            type="checkbox"
-            checked={subtitles}
-            onChange={() => setSubtitles(!subtitles)}
-          />
-          <p>Subtitles</p>
-        </label>
       </div>
 
-      <p className="text">Companion Content Results: {companionContent ? "Content available" : 'No content available'}</p>
-      <p className="text">Subtitles Results: {subtitles ? "Subtitles available" : 'No subtitles available'}</p>
+      <p className="text">
+        Study group selected: {subtitles ? "Subtitles" : "No Subtitles"}, {companionContent ? "Companion Content" : "No Companion Content"}
+      </p>
 
       <button className="submit-button" onClick={handleNavigate}>
-        Take the Pre-Test Survey
+        Proceed
       </button>
     </div>
   );

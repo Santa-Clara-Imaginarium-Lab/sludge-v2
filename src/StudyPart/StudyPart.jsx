@@ -58,9 +58,11 @@ const StudyPart = () => {
       primaryVideoRef.current.addEventListener("seeked", syncVideos);
 
       return () => {
-        primaryVideoRef.current.removeEventListener("play", syncVideos);
-        primaryVideoRef.current.removeEventListener("pause", syncVideos);
-        primaryVideoRef.current.removeEventListener("seeked", syncVideos);
+        if (primaryVideoRef.current) {
+          primaryVideoRef.current.removeEventListener("play", syncVideos);
+          primaryVideoRef.current.removeEventListener("pause", syncVideos);
+          primaryVideoRef.current.removeEventListener("seeked", syncVideos);
+        }
       };
     }
   }, [selectedCompanion]);
@@ -115,7 +117,7 @@ const StudyPart = () => {
 
   return (
     <div className="container">
-      <h2>Study Part</h2>
+      <h2>Study</h2>
 
       {!videosStarted && (
         <button className="start-button" onClick={handleStartVideos}>
@@ -141,7 +143,7 @@ const StudyPart = () => {
       </div>
 
       <button className="submit-button" onClick={handleNavigate}>
-        PostTest Survey
+        Done
       </button>
     </div>
   );
