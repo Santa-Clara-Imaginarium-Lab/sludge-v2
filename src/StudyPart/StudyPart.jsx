@@ -4,7 +4,7 @@ import { useAppContext } from "../index";
 import "./StudyPart.css";
 
 import primaryContent from "../videoAssets/primaryContent.mp4";
-import primaryContentSubtitles from "../videoAssets/primaryContent.vtt";
+import primaryContentSubtitles from "../videoAssets/primaryContent_utf8.vtt";
 
 // Companion Content Imports
 import minecraftCompanion1 from "../videoAssets/companionContent/minecraft1.mp4";
@@ -128,9 +128,9 @@ const StudyPart = () => {
         {/* Primary Video */}
         <video ref={primaryVideoRef} className="primary-video" width="600" height="400" controls>
           <source src={primaryContent} type="video/mp4" />
-          {subtitles && (
-            <track label="English" kind="subtitles" srcLang="en" src={primaryContentSubtitles} default />
-          )}
+            {subtitles && 
+              <track label="English" kind="subtitles" srcLang="en" src={primaryContentSubtitles} default />
+            }
         </video>
 
         {/* Companion Video (only if companionContent is enabled) */}
