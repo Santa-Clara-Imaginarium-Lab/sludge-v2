@@ -84,6 +84,7 @@
 .statement {
     text-align: left;
     font-size: large;
+    font-weight: bold;
     border-bottom: 1px solid #ddd;
     min-height: 80px; 
     display: flex; 
