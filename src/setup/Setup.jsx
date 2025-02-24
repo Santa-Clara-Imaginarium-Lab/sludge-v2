@@ -40,6 +40,7 @@ const Setup = () => {
 
   return (
     <div className="container">
+      <h1> STOP </h1>
       <h1>Please call the researcher for the Setup</h1>
       <p className="text">Choose the settings below for the study.</p>
       <div className="checkbox-options">

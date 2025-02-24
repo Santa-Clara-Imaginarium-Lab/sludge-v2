@@ -14,6 +14,7 @@ function Prompt2() {
     
     return (
         <div className="container">
+            <h1> STOP</h1>
             <h1>Please call the researcher for further instructions before proceeding</h1>
             <button className="submit-button" onClick={handleNavigate} disabled={loading}>
                 {loading ? "Proceeding..." : "Proceed"}

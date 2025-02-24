@@ -11,7 +11,7 @@ function QuizNav() {
     
     return (
         <div className="container">
-            <h1>Pop Quiz</h1>
+            {/* <h1>Pop Quiz</h1> */}
             <button className="submit-button" onClick={handleNavigate}>Let's Begin</button>
         </div>
     );
