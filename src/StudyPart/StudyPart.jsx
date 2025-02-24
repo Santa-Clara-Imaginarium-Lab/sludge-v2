@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../index";
 import "./StudyPart.css";
 
-import primaryContent from "../videoAssets/PrimaryContent10min.mp4";
+import primaryContent from "../videoAssets/primaryContent.mp4";
 import primaryContentSubtitles from "../videoAssets/primaryContent_utf8.vtt";
 
 // Companion Content Imports
