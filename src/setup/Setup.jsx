@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../index";
 import './Setup.css';
+import stopSign from '../image/STOP.jpg';
 
 const Setup = () => {
   const navigate = useNavigate();
