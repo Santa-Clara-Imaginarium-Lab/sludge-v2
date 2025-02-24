@@ -6,7 +6,7 @@ function Prompt1() {
     const navigate = useNavigate();
   
     const handleNavigate = () => {
-      navigate('/socialmediahabits1');
+      navigate('/socialmedia1');
     };
     
     return (
