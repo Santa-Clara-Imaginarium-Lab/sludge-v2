@@ -15,11 +15,11 @@ const statements = [
 ];
 
 const options = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
+  "Never",
+  "Rarely",
+  "Sometimes",
+  "Often",
+  "Always",
 ];
 
 function SocialMediaHabitsNew2() {
