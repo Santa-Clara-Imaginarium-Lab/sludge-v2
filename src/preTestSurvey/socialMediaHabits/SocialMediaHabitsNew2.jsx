@@ -73,7 +73,7 @@ function SocialMediaHabitsNew2() {
 
     return (                 
       <div className="container">
-        <div className="qualtrix-container">
+        <div className="social-qualtrix-container">
           <h1 className="social-title">To what degree do you spend doing these actions on social media?</h1>
           <div className="social-grid">
             <div className="qualtrix-grid-header">
