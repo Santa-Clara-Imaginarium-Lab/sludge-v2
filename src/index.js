@@ -27,6 +27,9 @@ import Prompt2 from './preTestSurvey/Prompt2.jsx';
 import Prompt3 from './popQuiz/Prompt3.jsx';
 import Exit from './popQuiz/Exit.jsx';
 
+import SocialMediaHabitsNew1 from './preTestSurvey/socialMediaHabits/SocialMediaHabitsNew1.jsx';
+import SocialMediaHabitsNew2 from './preTestSurvey/socialMediaHabits/SocialMediaHabitsNew2.jsx';
+
 import { createContext, useContext, useState } from "react";
 
 
@@ -56,6 +59,14 @@ const router = createBrowserRouter([
   {
     path: '/socialmediahabits3',
     element: <SocialMediaHabits3 />,
+  },
+  {
+    path: '/socialmedia1',
+    element: <SocialMediaHabitsNew1 />,
+  },
+  {
+    path: '/socialmedia2',
+    element: <SocialMediaHabitsNew2 />,
   },
   {
     path: '/maaslo1',
