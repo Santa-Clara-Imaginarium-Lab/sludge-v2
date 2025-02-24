@@ -727,6 +727,79 @@ app.post('/popquiz2', async (req, res) => {
     }
 });
 
+app.post("/socialmedia1", async (req, res) => {
+  try {
+    console.log("🔍 Received Social Media 1 Data:", req.body);
+    const { userId, hours } = req.body;
+
+    if (!userId || !hours || typeof hours !== 'object') {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Social Media New 1", [
+      "User ID", "Timestamp", "YouTube", "Facebook", "Instagram", "Snapchat", "BeReal.", "X (Twitter)", "LinkedIn"
+    ]);
+
+    const rowData = {
+      "User ID": userId,
+      Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
+      YouTube: hours.YouTube,
+      Facebook: hours.Facebook,
+      Instagram: hours.Instagram,
+      Snapchat: hours.Snapchat,
+      "BeReal.": hours.BeReal,
+      "X (Twitter)": hours.Twitter,
+      LinkedIn: hours.LinkedIn
+    };
+
+    await sheet.addRow(rowData);
+    console.log("Successfully stored Social Media 1 Data:", rowData);
+    res.status(200).json({ success: true, message: "Social Media 1 data submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+app.post("/socialmedia2", async (req, res) => {
+  try {
+    console.log("🔍 Received Social Media 2 Data:", req.body);
+    const { userId, formattedResponses } = req.body;
+    const responses = formattedResponses;
+
+    if (!userId || !responses || !Array.isArray(responses) || responses.length === 0) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Social Media New 2", ["User ID", "Timestamp", "Social interaction", "Information seeking", "Passing time", "Entertainment", "Relaxation", "Expression of opinions", "Information sharing", "Knowledge of others", "Multitasking"]);
+
+    const rowData = {
+      "User ID": userId,
+      Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
+      "Social interaction": responses[0] || "N/A",
+      "Information seeking": responses[1] || "N/A",
+      "Passing time": responses[2] || "N/A",
+      "Entertainment": responses[3] || "N/A",
+      "Relaxation": responses[4] || "N/A",
+      "Expression of opinions": responses[5] || "N/A",
+      "Information sharing": responses[6] || "N/A",
+      "Knowledge of others": responses[7] || "N/A",
+      "Multitasking": responses[8] || "N/A",
+    };
+
+    await sheet.addRow(rowData);
+    console.log("Successfully stored Social Media Data:", rowData);
+    res.status(200).json({ success: true, message: "Social Media Survey submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
