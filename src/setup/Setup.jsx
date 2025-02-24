@@ -40,7 +40,12 @@ const Setup = () => {
 
   return (
     <div className="container">
-      <h1> STOP </h1>
+      <h1 style={{ color: "red", fontSize: "2rem" }}>STOP</h1>
+            <img 
+                src={stopSign} 
+                alt="Stop Sign" 
+                style={{ width: "150px", height: "150px", marginBottom: "20px" }} 
+            />
       <h1>Please call the researcher for the Setup</h1>
       <p className="text">Choose the settings below for the study.</p>
       <div className="checkbox-options">
