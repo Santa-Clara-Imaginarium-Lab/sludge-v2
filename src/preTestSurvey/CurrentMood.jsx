@@ -7,9 +7,10 @@ const CurrentMood = () => {
   const [mood, setMood] = useState('');
   const [error, setError] = useState('');
   const userId = localStorage.getItem('userId');
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
 
     if (!mood.trim()) {
         setError('Please enter your answer.');
@@ -17,7 +18,7 @@ const CurrentMood = () => {
     }
 
     setError('');
-
+    setLoading(true);
     try {
       const response = await fetch('https://sludge-v2.onrender.com/mood', {
         method: 'POST',
@@ -35,6 +36,7 @@ const CurrentMood = () => {
     } catch (error) {
       setError('Error submitting mood. Please try again later.');
     }
+    setLoading(false);
   };
 
 
@@ -49,7 +51,9 @@ const CurrentMood = () => {
               onChange={(e) => setMood(e.target.value)}
             />
         {error && <div className="error-message">{error}</div>}
-        <button className="submit-button" onClick={handleSubmit}>Submit</button>
+        <button className="submit-button" onClick={handleSubmit} disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </button>
       </div>
   );
 };

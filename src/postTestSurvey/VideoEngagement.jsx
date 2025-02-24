@@ -46,7 +46,7 @@ const VideoEngagement = () => {
   const [responses, setResponses] = useState([]);
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  
+  const [loading, setLoading] = useState(false);
   const handleOptionChange = (selectedOption) => {
     const updatedResponses = [...responses];
     updatedResponses[currentIndex] = selectedOption;
@@ -59,7 +59,7 @@ const VideoEngagement = () => {
       return;
     }
     setError('');
-
+    setLoading(true);
     if (currentIndex < survey.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
@@ -84,6 +84,7 @@ const VideoEngagement = () => {
         setError("Network error. Try again later.");
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -117,8 +118,8 @@ const VideoEngagement = () => {
           </div>
         </div>
         {error && <div className="error-message">{error}</div>}
-        <button className="submit-button" onClick={handleSubmit}>
-          {currentIndex < survey.length - 1 ? "Next" : "Submit"}
+        <button className="submit-button" onClick={handleSubmit} disabled={loading}>
+         {loading ? "Submitting..." : (currentIndex < survey.length - 1 ? "Next" : "Submit")}
         </button>
       </div>
     </div>

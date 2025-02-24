@@ -11,6 +11,7 @@ function PopQuiz() {
     const [answers, setAnswers] = useState([]); // Array to store answers
     const userId = localStorage.getItem('userId'); 
     const [score, setScore] = useState(0); // Counter for the score
+    const [loading, setLoading] = useState(false);
 
     const handleOptionChange = (event) => {
         const value = event.target.value;
@@ -23,7 +24,7 @@ function PopQuiz() {
             setShowError(true);
             return;
         }
-
+        setLoading(true);
         // Save the selected option to the answers array
         setAnswers((prevAnswers) => {
             const updatedAnswers = [...prevAnswers, selectedOption];
@@ -70,6 +71,7 @@ function PopQuiz() {
                 setShowError(true); 
             }
         }
+        setLoading(false);
     };
 
     return (
@@ -92,7 +94,9 @@ function PopQuiz() {
                     ))}
                 </div>
                 {showError && <p className="error-message">Please select an option before proceeding.</p>}
-                <button className="submit-button" onClick={handleClick}>Submit</button>
+                <button className="submit-button" onClick={handleClick} disabled={loading}>
+                    {loading ? "Submitting..." : "Submit"}
+                </button>
             </div>
         </div>
     );

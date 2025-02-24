@@ -8,7 +8,8 @@ function DemographicQuestion2() {
     const [showError2, setShowError2] = useState(false);
     const [freeResponse, setFreeResponse] = useState(''); 
     const userId = localStorage.getItem('userId');
-    
+    const [loading, setLoading] = useState(false);
+
     const handleFreeResponseChange = (event) => {
       setFreeResponse(event.target.value); 
     };
@@ -19,7 +20,7 @@ function DemographicQuestion2() {
         setShowError2(false); 
         return;
       }
-
+      setLoading(true);
       const freeResponseNum = Number(freeResponse);
 
       if (isNaN(freeResponseNum) || !Number.isInteger(freeResponseNum) || freeResponseNum < 0 || freeResponseNum > 120) {
@@ -53,6 +54,7 @@ function DemographicQuestion2() {
         console.error('Error updating demographic data:', error);
         setShowError(true); 
       }
+      setLoading(false);
     };
 
     return (
@@ -72,7 +74,9 @@ function DemographicQuestion2() {
           </div>
           {showError && <p className="error-message">Please provide an answer before proceeding.</p>}
           {showError2 && <p className="error-message">Please provide a valid number.</p>}
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
           </div>
         </div>
       );

@@ -9,6 +9,7 @@ function DemographicQuestion3() {
     const [showError2, setShowError2] = useState(false);
     const [otherText, setOtherText] = useState('');
     const userId = localStorage.getItem('userId'); 
+    const [loading, setLoading] = useState(false);
 
     const handleOptionChange = (event) => {
       const value = event.target.value;
@@ -33,7 +34,7 @@ function DemographicQuestion3() {
         setShowError2(true); 
         return;
       }
-
+      setLoading(true);
       const finalEthnicity = selectedOptions.includes("Other") 
         ? [...selectedOptions.filter(option => option !== "Other"), otherText] 
         : selectedOptions;
@@ -61,6 +62,7 @@ function DemographicQuestion3() {
         console.error('Error updating demographic data:', error);
         setShowError(true); 
       }
+      setLoading(false);
     };
 
     return (
@@ -151,7 +153,9 @@ function DemographicQuestion3() {
           </div>
           {showError && <p className="error-message">Please select at least one option before proceeding.</p>}
           {showError2 && <p className="error-message">Please specify an answer before proceeding.</p>}
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
           </div>
         </div>
       );

@@ -8,7 +8,8 @@ function DemographicQuestion1() {
     const [showError, setShowError] = useState(false);
     const [showError2, setShowError2] = useState(false);
     const userId = localStorage.getItem('userId'); 
-
+    const [loading, setLoading] = useState(false);
+    
     const handleOptionChange = (event) => {
       const value = event.target.value;
       setSelectedOption(value);
@@ -28,7 +29,7 @@ function DemographicQuestion1() {
         setShowError2(true); 
         return;
       }
-
+      setLoading(true);
       const gender = selectedOption === "Other" ? document.querySelector('.gender-input').value : selectedOption;
 
       const dataToSend = {
@@ -56,6 +57,7 @@ function DemographicQuestion1() {
         console.error('Error saving demographic data:', error);
         setShowError(true); // Optionally show an error message
       }
+      setLoading(false);
     };
 
     return (
@@ -127,7 +129,9 @@ function DemographicQuestion1() {
           </div>
           {showError && <p className="error-message">Please select an option before proceeding.</p>}
           {showError2 && <p className="error-message">Please specify an answer before proceeding.</p>}
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
           </div>
         </div>
       );

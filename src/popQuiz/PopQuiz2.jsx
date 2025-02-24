@@ -7,6 +7,7 @@ function PopQuiz2() {
     const [showError, setShowError] = useState(false);
     const [freeResponse, setFreeResponse] = useState(''); 
     const userId = localStorage.getItem('userId');
+    const [loading, setLoading] = useState(false);
     
     const handleFreeResponseChange = (event) => {
       setFreeResponse(event.target.value); 
@@ -19,7 +20,7 @@ function PopQuiz2() {
       }
 
       setShowError(false);
-
+      setLoading(true);
       try {
         const response = await fetch(`https://sludge-v2.onrender.com/popquiz2`, {
           method: 'POST',
@@ -42,6 +43,7 @@ function PopQuiz2() {
         console.error('Error updating demographic data:', error);
         setShowError(true); 
       }
+      setLoading(false);
     };
 
     return (
@@ -59,7 +61,9 @@ function PopQuiz2() {
 
 
           {showError && <p className="error-message">Please provide an answer before proceeding.</p>}
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
           </div>
         </div>
       );

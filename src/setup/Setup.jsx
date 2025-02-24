@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "../index";
 import './Setup.css';
 
 const Setup = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleNavigate = async () => {
     const setupData = [];
     if (companionContent) setupData.push("Companion Content");
     if (subtitles) setupData.push("Subtitles");
-
+    setLoading(true);
     try {
       const response = await fetch("https://sludge-v2.onrender.com/submit-setup", {
         method: 'POST',
@@ -32,6 +33,7 @@ const Setup = () => {
     } catch (error) {
       console.error('Error submitting setup data:', error);
     }
+    setLoading(false);
   };
 
   const { companionContent, setCompanionContent, subtitles, setSubtitles } = useAppContext();
@@ -66,8 +68,8 @@ const Setup = () => {
         Study group selected: {subtitles ? "Subtitles" : "No Subtitles"}, {companionContent ? "Companion Content" : "No Companion Content"}
       </p>
 
-      <button className="submit-button" onClick={handleNavigate}>
-        Proceed
+      <button className="submit-button" onClick={handleNavigate} disabled={loading}>
+        {loading ? "Proceeding..." : "Proceed"}
       </button>
     </div>
   );

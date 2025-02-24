@@ -1,18 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../postTestSurvey/PostTestSurvey.css'; 
 import { useNavigate } from 'react-router-dom';
 
 function Prompt2() {
     const navigate = useNavigate();
-  
+    const [loading, setLoading] = useState(false);
+
     const handleNavigate = () => {
+      setLoading(true);
       navigate('/studypart');
+      setLoading(false);
     };
     
     return (
         <div className="container">
             <h1>Please call the researcher for further instructions before proceeding</h1>
-            <button className="submit-button" onClick={handleNavigate}>Proceed</button>
+            <button className="submit-button" onClick={handleNavigate} disabled={loading}>
+                {loading ? "Proceeding..." : "Proceed"}
+            </button>
         </div>
     );
 }

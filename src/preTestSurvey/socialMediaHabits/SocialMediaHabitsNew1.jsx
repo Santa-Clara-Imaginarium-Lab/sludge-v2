@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 function SocialMediaHabitsNew1() {
     const navigate = useNavigate();
     const userId = localStorage.getItem('userId'); 
+    const [loading, setLoading] = useState(false);
 
     const [hours, setHours] = useState({
         YouTube: '',
@@ -24,6 +25,7 @@ function SocialMediaHabitsNew1() {
     };
 
     const handleClick = async () => {
+        setLoading(true);
         try {
             const response = await fetch("https://sludge-v2.onrender.com/socialmedia1", {
                 method: 'POST',
@@ -45,6 +47,7 @@ function SocialMediaHabitsNew1() {
         } catch (error) {
             console.error('Error submitting social media hours data:', error);
         }
+        setLoading(false);
     };
 
     return (                 
@@ -81,7 +84,9 @@ function SocialMediaHabitsNew1() {
               <span className="platform-name">LinkedIn</span>
             </div>
           </div>
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
         </div>
       </div>
     );

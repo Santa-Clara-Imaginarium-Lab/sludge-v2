@@ -8,6 +8,8 @@ function DemographicQuestion4() {
     const [showError, setShowError] = useState(false);
     const userId = localStorage.getItem('userId'); 
 
+    const [loading, setLoading] = useState(false);
+
     const handleOptionChange = (event) => {
       const value = event.target.value;
       setSelectedOption(value);
@@ -19,7 +21,7 @@ function DemographicQuestion4() {
         setShowError(true);
         return;
       }
-
+      setLoading(true);
       const dataToSend = {
         userId,
         academicYear: selectedOption
@@ -45,6 +47,7 @@ function DemographicQuestion4() {
         console.error('Error saving academic year data:', error);
         setShowError(true); 
       }
+      setLoading(false);
     };
 
     return (
@@ -108,7 +111,9 @@ function DemographicQuestion4() {
             </label>
           </div>
           {showError && <p className="error-message">Please select an option before proceeding.</p>}
-          <button className="submit-button" onClick={handleClick}>Submit</button>
+          <button className="submit-button" onClick={handleClick} disabled={loading}>
+            {loading ? "Submitting..." : "Submit"}
+          </button>
           </div>
         </div>
       );
