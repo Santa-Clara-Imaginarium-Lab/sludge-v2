@@ -40,7 +40,7 @@ const MEWS3 = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://sludge-v2.onrender.com/mews3", {
+      const response = await fetch("https://sludge-v2.up.railway.app/mews3", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, responses: Object.values(responses) }),

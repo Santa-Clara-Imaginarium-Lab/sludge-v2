@@ -44,7 +44,7 @@ function DemographicQuestion3() {
         ethnicity: finalEthnicity
       };
       try {
-        const response = await fetch(`https://sludge-v2.onrender.com/demographicques3`, {
+        const response = await fetch(`https://sludge-v2.up.railway.app/demographicques3`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

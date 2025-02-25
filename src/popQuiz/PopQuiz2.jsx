@@ -22,7 +22,7 @@ function PopQuiz2() {
       setShowError(false);
       setLoading(true);
       try {
-        const response = await fetch(`https://sludge-v2.onrender.com/popquiz2`, {
+        const response = await fetch(`https://sludge-v2.up.railway.app/popquiz2`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

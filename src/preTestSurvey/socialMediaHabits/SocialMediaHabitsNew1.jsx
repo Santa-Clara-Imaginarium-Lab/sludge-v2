@@ -27,7 +27,7 @@ function SocialMediaHabitsNew1() {
     const handleClick = async () => {
         setLoading(true);
         try {
-            const response = await fetch("https://sludge-v2.onrender.com/socialmedia1", {
+            const response = await fetch("https://sludge-v2.up.railway.app/socialmedia1", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

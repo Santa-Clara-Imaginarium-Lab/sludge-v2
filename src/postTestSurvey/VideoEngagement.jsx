@@ -66,7 +66,7 @@ const VideoEngagement = () => {
       // Send the collected responses to the API
       const userId = localStorage.getItem("userId");
       try {
-        const response = await fetch("https://sludge-v2.onrender.com/videoengagement", {
+        const response = await fetch("https://sludge-v2.up.railway.app/videoengagement", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, responses }),

@@ -33,7 +33,7 @@ function DemographicQuestion2() {
       setShowError2(false);
 
       try {
-        const response = await fetch(`https://sludge-v2.onrender.com/demographicques2`, {
+        const response = await fetch(`https://sludge-v2.up.railway.app/demographicques2`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

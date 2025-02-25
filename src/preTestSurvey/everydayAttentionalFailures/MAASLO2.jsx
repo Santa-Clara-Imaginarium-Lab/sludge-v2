@@ -42,7 +42,7 @@ const MAASLO2 = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://sludge-v2.onrender.com/maaslo2", {
+      const response = await fetch("https://sludge-v2.up.railway.app/maaslo2", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, responses: Object.values(responses) }),

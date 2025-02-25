@@ -50,7 +50,7 @@ function SocialMediaHabitsNew2() {
       console.log("Sending Data:", { userId, responses: formattedResponses });
 
       try {
-        const response = await fetch("https://sludge-v2.onrender.com/socialmedia2", {
+        const response = await fetch("https://sludge-v2.up.railway.app/socialmedia2", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, formattedResponses }),

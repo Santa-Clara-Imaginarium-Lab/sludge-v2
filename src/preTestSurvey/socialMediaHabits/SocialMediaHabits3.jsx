@@ -24,7 +24,7 @@ function SocialMediaHabits3() {
       }
 
       try {
-        const response = await fetch("https://sludge-v2.onrender.com/social-media-habits-3", {
+        const response = await fetch("https://sludge-v2.up.railway.app/social-media-habits-3", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

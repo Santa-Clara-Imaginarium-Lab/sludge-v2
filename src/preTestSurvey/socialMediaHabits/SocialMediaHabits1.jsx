@@ -33,7 +33,7 @@ function SocialMediaHabits1() {
       : selectedOptions;
 
       try {
-        const response = await fetch("https://sludge-v2.onrender.com/social-media-habits-1", {
+        const response = await fetch("https://sludge-v2.up.railway.app/social-media-habits-1", {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

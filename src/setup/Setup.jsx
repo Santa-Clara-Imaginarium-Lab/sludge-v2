@@ -14,7 +14,7 @@ const Setup = () => {
     if (subtitles) setupData.push("Subtitles");
     setLoading(true);
     try {
-      const response = await fetch("https://sludge-v2.onrender.com/submit-setup", {
+      const response = await fetch("https://sludge-v2.up.railway.app/submit-setup", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

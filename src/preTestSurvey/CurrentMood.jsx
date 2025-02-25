@@ -20,7 +20,7 @@ const CurrentMood = () => {
     setError('');
     setLoading(true);
     try {
-      const response = await fetch('https://sludge-v2.onrender.com/mood', {
+      const response = await fetch('https://sludge-v2.up.railway.app/mood', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

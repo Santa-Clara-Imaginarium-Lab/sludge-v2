@@ -52,7 +52,7 @@ function PopQuiz() {
             console.log("Data to send:", dataToSend); 
 
             try {
-                const response = await fetch(`https://sludge-v2.onrender.com/popquiz`, {
+                const response = await fetch(`https://sludge-v2.up.railway.app/popquiz`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

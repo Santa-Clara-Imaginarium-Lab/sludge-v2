@@ -46,7 +46,7 @@ const MAASLO1 = () => {
     console.log("Sending Data:", { userId, responses: formattedResponses });
 
     try {
-      const response = await fetch("https://sludge-v2.onrender.com/maaslo1", {
+      const response = await fetch("https://sludge-v2.up.railway.app/maaslo1", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userId, formattedResponses }),

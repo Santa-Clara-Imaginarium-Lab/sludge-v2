@@ -29,7 +29,7 @@ function DemographicQuestion4() {
       console.log("Data to send:", dataToSend); 
 
       try {
-        const response = await fetch(`https://sludge-v2.onrender.com/demographicques4`, {
+        const response = await fetch(`https://sludge-v2.up.railway.app/demographicques4`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
