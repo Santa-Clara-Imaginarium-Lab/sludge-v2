@@ -60,6 +60,11 @@ async function getGoogleSheet(sheetTitle, headerValues) {
   return sheet;
 }
 
+app.get('/health', (req, res) => {
+  res.status(200).send('OK');
+});
+
+
 app.post("/maaslo1", async (req, res) => {
   try {
     console.log("🔍 Received Pre-Test Data:", req.body);
