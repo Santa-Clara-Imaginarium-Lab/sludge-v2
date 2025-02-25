@@ -14,7 +14,7 @@ function Prompt1() {
     
     return (
         <div className="container">
-            {/* <h1>Pre-Test Survey</h1> */}
+            <h1>Survey</h1>
             <button className="submit-button" onClick={handleNavigate} disabled={loading}>
                 {loading ? "Proceeding..." : "Proceed"}
             </button>
