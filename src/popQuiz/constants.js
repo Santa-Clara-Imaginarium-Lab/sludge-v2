@@ -39,16 +39,6 @@ const questions = [
         correct: "Intentional"
     },
     {
-        question: "If the constant like gravity is altered even slightly, what could it lead to?",
-        options: [
-            "A universe crunch",
-            "Another universe is created",
-            "More stars and planets are formed",
-            "Nothing"
-        ],
-        correct: "A universe crunch"
-    },
-    {
         question: "The debate over God's role in creation of universe includes about whether he is bound by physical laws",
         options: [
             "True",
