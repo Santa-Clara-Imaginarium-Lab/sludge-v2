@@ -112,7 +112,7 @@ const StudyPart = () => {
   };
 
   const handleNavigate = () => {
-    navigate("/videoengagement");
+    navigate("/stop");
   };
 
   return (

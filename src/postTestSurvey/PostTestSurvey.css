@@ -97,3 +97,28 @@ Tutorial.css
   .demographic-option input[type="checkbox"]:checked {
     accent-color: #61dafb; 
 }
+
+.stop-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers content vertically */
+  align-items: center; /* Centers content horizontally */
+  height: 100vh; /* Full viewport height */
+  text-align: center;
+}
+
+.submit-button1 {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  border: none;
+  background-color: #61dafb;
+   color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0.3em 0.3em 0 0 #b3cad1;
+}
+
+.submit-button1:hover {
+  background-color: #1ccdfe; /* Darker shade on hover */
+}

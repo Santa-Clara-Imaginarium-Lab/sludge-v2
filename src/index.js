@@ -34,6 +34,7 @@ import { createContext, useContext, useState } from "react";
 
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import StopPage from './postTestSurvey/alert.jsx';
 
 const router = createBrowserRouter([
   {
@@ -95,6 +96,10 @@ const router = createBrowserRouter([
   {
     path: '/studypart',
     element: <StudyPart />,
+  },
+  {
+    path: '/stop',
+    element: <StopPage />,
   },
   {
     path: '/mood',
