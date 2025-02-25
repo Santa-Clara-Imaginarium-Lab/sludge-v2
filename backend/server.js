@@ -652,7 +652,7 @@ app.post('/popquiz', async (req, res) => {
     const { userId, answers, score } = req.body;
 
     try {
-        const sheet = await getGoogleSheet("PopQuiz", [
+        const sheet = await getGoogleSheet("PopQuizNew", [
             "userId", 
             "Timestamp", 
             "Question 1", 
@@ -664,9 +664,7 @@ app.post('/popquiz', async (req, res) => {
             "Question 7", 
             "Question 8", 
             "Question 9", 
-            "Question 10", 
-            "Question 11",
-            "Score (Out of 10)"
+            "Score (Out of 8)"
         ]);
 
         // Prepare the row data
@@ -677,7 +675,7 @@ app.post('/popquiz', async (req, res) => {
                 acc[`Question ${index + 1}`] = answer; 
                 return acc;
             }, {}),
-            "Score (Out of 10)": score,
+            "Score (Out of 8)": score,
         };
 
         // Add the row to the sheet
@@ -695,7 +693,7 @@ app.post('/popquiz2', async (req, res) => {
 
     try {
         // Get the PopQuiz sheet
-        const sheet = await getGoogleSheet("PopQuiz", [
+        const sheet = await getGoogleSheet("PopQuizNew", [
             "userId", 
             "Timestamp", 
             "Question 1", 
@@ -707,8 +705,7 @@ app.post('/popquiz2', async (req, res) => {
             "Question 7", 
             "Question 8", 
             "Question 9", 
-            "Question 10", 
-            "Question 11"
+            "Score (Out of 8)"
         ]);
 
         // Find the latest row for the given userId
@@ -718,16 +715,16 @@ app.post('/popquiz2', async (req, res) => {
 
         if (latestRow) {
             // Update the latest row with the answer for Question 11
-            latestRow["Question 11"] = answer;
+            latestRow["Question 9"] = answer;
             await latestRow.save();
-            console.log("Question 11 updated successfully for userId:", userId);
-            res.status(200).json({ success: true, message: "Question 11 updated successfully." });
+            console.log("Question 9 updated successfully for userId:", userId);
+            res.status(200).json({ success: true, message: "Question 9 updated successfully." });
         } else {
             console.error("No existing row found for userId:", userId);
             res.status(404).json({ success: false, error: "No existing row found for userId." });
         }
     } catch (error) {
-        console.error('Error updating Question 11:', error);
+        console.error('Error updating Question 9:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
