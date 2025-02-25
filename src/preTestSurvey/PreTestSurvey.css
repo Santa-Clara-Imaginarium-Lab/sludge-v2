@@ -125,10 +125,9 @@ input[type="radio"]:checked + .circle {
 }
 
 .submit-button {
-    font-weight: bold;
-    margin-top: 1em;
-    margin-bottom: 1em;
+    display: inline-block; /* Ensures proper hitbox */
     padding: 0.5em 1.5em;
+    margin-top: 1em;
     background-color: #61dafb;
     color: white;
     border: none;
@@ -136,7 +135,22 @@ input[type="radio"]:checked + .circle {
     font-size: 1.2em;
     cursor: pointer;
     box-shadow: 0.3em 0.3em 0 0 #b3cad1;
+    position: relative;
+    z-index: 10;
+    font-weight: bold;
 }
+
+/* Fix overlapping issues */
+.submit-button::before {
+    content: "";
+    position: absolute;
+    top: -5px; /* Expands hitbox */
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: transparent;
+}
+
 
 .submit-button:active {
     transform: translate(0.3em, 0.3em); 

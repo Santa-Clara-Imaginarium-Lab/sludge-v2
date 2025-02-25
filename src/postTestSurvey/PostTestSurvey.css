@@ -108,15 +108,29 @@ Tutorial.css
 }
 
 .submit-button1 {
-  padding: 10px 20px;
-  font-size: 1.2rem;
-  border: none;
+  display: inline-block; /* Ensures proper hitbox */
+  padding: 0.5em 1.5em;
+  margin-top: 1em;
   background-color: #61dafb;
-   color: white;
+  color: white;
+  border: none;
   border-radius: 5px;
+  font-size: 1.2em;
   cursor: pointer;
-  margin-top: 20px;
   box-shadow: 0.3em 0.3em 0 0 #b3cad1;
+  position: relative;
+  z-index: 10;
+  font-weight: bold;
+}
+
+.submit-button1::before {
+  content: "";
+  position: absolute;
+  top: -5px; /* Expands hitbox */
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: transparent;
 }
 
 .submit-button1:hover {

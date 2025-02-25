@@ -33,7 +33,7 @@ function App() {
       alert("Please enter your participant ID.");
       return;
     }
-    navigate('/setup');
+    navigate('/prompt1');
   };
 
   return (

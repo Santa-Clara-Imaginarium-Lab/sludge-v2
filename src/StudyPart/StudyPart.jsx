@@ -116,13 +116,14 @@ const StudyPart = () => {
   };
 
   return (
-    <div className="container">
-
+    <div className="study-container">
+  <div className="button-container">
       {!videosStarted && (
         <button className="submit-button" onClick={handleStartVideos}>
           Start Videos
         </button>
       )}
+      </div>
 
       <div className="video-container">
         {/* Primary Video */}
@@ -140,10 +141,11 @@ const StudyPart = () => {
           </video>
         )}
       </div>
-
+      <div className="button-container">
       <button className="submit-button" onClick={handleNavigate}>
         Done
       </button>
+      </div>
     </div>
   );
 };
