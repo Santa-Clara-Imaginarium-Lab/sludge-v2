@@ -79,14 +79,6 @@ const questions = [
             "False"
         ],
         correct: "False"
-    },
-    {
-        question: "Viewing God as an artist implies that He intentionally designed the universe to be interesting and complex, rather than simply existing within the confines of physical laws.",
-        options: [
-            "True",
-            "False"
-        ],
-        correct: "True"
     }
 ];
 
