@@ -3,16 +3,22 @@ import './SocialMediaHabits.css';
 import { useNavigate } from 'react-router-dom';
 
 const statements = [
-  "Social interaction",
-  "Information seeking",
-  "Passing time",
-  "Entertainment",
-  "Relaxation",
-  "Expression of opinions",
-  "Information sharing",
-  "Knowledge of others",
-  "Multitasking"
+  "Interpersonal-Related Actions<br/>(Social interaction, communication, keeping up with others, etc.)",
+  "Intrapersonal-Related Actions<br/>(Passing time, entertainment, escapism, relaxation, stress management, etc.)",
+  "Information-Related Actions<br/>(Sharing information, self-education, information seeking, etc.)"
 ];
+
+/*const statements = [
+  `<div style="display: block;"><strong>Interpersonal-Related Actions</strong><br/>
+   <span style="font-weight: normal;">(Social interaction, communication, keeping up with others, etc.)</span></div>`,
+  
+  `<div style="display: block;"><strong>Intrapersonal-Related Actions</strong><br/>
+   <span style="font-weight: normal;">(Passing time, entertainment, escapism, relaxation, stress management, etc.)</span></div>`,
+  
+  `<div style="display: block;"><strong>Information-Related Actions</strong><br/>
+   <span style="font-weight: normal;">(Sharing information, self-education, information seeking, etc.)</span></div>`
+];*/
+
 
 const options = [
   "Never",
@@ -50,7 +56,7 @@ function SocialMediaHabitsNew2() {
       console.log("Sending Data:", { userId, responses: formattedResponses });
 
       try {
-        const response = await fetch("https://sludge-v2.up.railway.app/socialmedia2", {
+        const response = await fetch("https://sludge-v2.up.railway.app/socialmedia2new", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId, formattedResponses }),
@@ -86,7 +92,8 @@ function SocialMediaHabitsNew2() {
             </div>
             {statements.map((statement, statementIndex) => (
               <div key={statementIndex} className="qualtrix-row">
-                <div className="social-statement">{statement}</div>
+                <div className="social-statement" dangerouslySetInnerHTML={{ __html: statement }}></div>
+
                 {options.map((option, optionIndex) => (
                   <label key={optionIndex} className="circle-container">
                     <input

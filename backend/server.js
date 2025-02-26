@@ -802,6 +802,37 @@ app.post("/socialmedia2", async (req, res) => {
   }
 });
 
+app.post("/socialmedia2new", async (req, res) => {
+  try {
+    console.log("🔍 Received Social Media 2 New Data:", req.body);
+    const { userId, formattedResponses } = req.body;
+    const responses = formattedResponses;
+
+    if (!userId || !responses || !Array.isArray(responses) || responses.length === 0) {
+      console.error("Invalid request format. Received:", req.body);
+      return res.status(400).json({ success: false, error: "Invalid request format" });
+    }
+
+    const sheet = await getGoogleSheet("Social Media New 2", ["User ID", "Timestamp", "Interpersonal-Related Actions", "Intrapersonal-Related Actions", "Information-Related Actions"]);
+
+    const rowData = {
+      "User ID": userId,
+      Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
+      "Interpersonal-Related Actions": responses[0] || "N/A",
+      "Intrapersonal-Related Actions": responses[1] || "N/A",
+      "Information-Related Actions": responses[2] || "N/A",
+    };
+
+    await sheet.addRow(rowData);
+    console.log("Successfully stored Social Media New 2 Data:", rowData);
+    res.status(200).json({ success: true, message: "Social Media 2 Survey submitted!" });
+
+  } catch (error) {
+    console.error("Internal Server Error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 const PORT = process.env.PORT || 3100;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
