@@ -67,6 +67,7 @@ const StudyPart = () => {
     }
   }, [selectedCompanion]);
 
+  /*
   useEffect(() => {
     if (window.webgazer) {
       window.webgazer
@@ -100,6 +101,7 @@ const StudyPart = () => {
       }
     };
   }, []);
+  */
   
   const handleStartVideos = () => {
     if (primaryVideoRef.current) {
