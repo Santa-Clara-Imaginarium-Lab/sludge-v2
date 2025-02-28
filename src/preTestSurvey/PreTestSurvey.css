@@ -209,6 +209,16 @@ input[type="radio"]:checked + .circle {
     position: relative;
 }
 
+
+.mood-grid {
+    display: grid;
+    grid-template-columns: 0fr repeat(5, 1fr); /* Adjust as needed */
+    gap: 10px;
+    position: relative;
+    margin-top: 50px;
+    margin-bottom: 40px;
+} 
+
 .videoengagement-grid {
     display: grid;
     grid-template-columns: 1fr repeat(7, 1fr); /* Adjust as needed */

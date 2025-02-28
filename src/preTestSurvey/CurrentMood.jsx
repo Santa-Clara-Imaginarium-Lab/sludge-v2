@@ -9,6 +9,18 @@ const CurrentMood = () => {
   const userId = localStorage.getItem('userId');
   const [loading, setLoading] = useState(false);
 
+  const options = [
+    "Very unwell",
+    "Somewhat unwell",
+    "Neutral",
+    "Somewhat well",
+    "Very well"
+  ]
+
+  const handleSubmitOption = (mood) => {
+    setMood(mood);
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -40,21 +52,43 @@ const CurrentMood = () => {
   };
 
 
-  return (
-      <div className="container">
-        <h1 className='title'>How would you describe your current mood?</h1>
-            <input
-              className="text-input"
-              type="text"
-              placeholder="Enter your answer here"
-              value={mood}
-              onChange={(e) => setMood(e.target.value)}
-            />
+  return (                 
+    <div className="container">
+      <div className="social-qualtrix-container">
+        <h1 className="social-title">How would you describe your current mood?</h1>
+        <div className="mood-grid">
+          <div className="qualtrix-grid-header">
+            <div className="header-empty"></div>
+            {options.map((option, index) => (
+              <div key={index} className="option-header">
+                {option}
+              </div>
+            ))}
+          </div>
+          {
+            <div className="qualtrix-row">
+              <div></div>
+              {options.map((option, optionIndex) => (
+                <label key={optionIndex} className="circle-container">
+                  <input
+                    type="radio"
+                    name={"mood"}
+                    value={option}
+                    checked={mood === option}
+                    onChange={() => handleSubmitOption(option)}
+                  />
+                  <span className="circle"></span>
+                </label>
+              ))}
+            </div>
+          }
+        </div>
         {error && <div className="error-message">{error}</div>}
         <button className="submit-button" onClick={handleSubmit} disabled={loading}>
           {loading ? "Submitting..." : "Submit"}
         </button>
       </div>
+    </div>
   );
 };
 
