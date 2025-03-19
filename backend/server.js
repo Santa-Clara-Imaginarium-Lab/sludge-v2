@@ -79,7 +79,7 @@ app.post("/maaslo1", async (req, res) => {
     const sheet = await getGoogleSheet("Everyday Attentional Failures", ["User ID", "Timestamp", "Statement 1", "Statement 2", "Statement 3", "Statement 4", "Statement 5", "Statement 6", "Statement 7", "Statement 8", "Statement 9", "Statement 10", "Statement 11", "Statement 12", "Statement 13", "Statement 14", "Statement 15"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`,
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Statement 1": responses[0] || "N/A",
       "Statement 2": responses[1] || "N/A",
@@ -121,7 +121,7 @@ app.post("/videoengagement", async (req, res) => {
     const sheet = await getGoogleSheet("Video Engagement & Satisfaction", ["User ID", "Timestamp", "Statement 1", "Statement 2", "Statement 3"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Statement 1": responses[0] || "N/A",
       "Statement 2": responses[1] || "N/A",
@@ -151,7 +151,7 @@ app.post("/social-media-habits-1", async (req, res) => {
     const sheet = await getGoogleSheet("Social Media Habits", ["User ID", "Timestamp", "Platform", "Hours", "Reasons"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       Platform: platforms.join(", ") || "N/A",
     };
@@ -183,7 +183,7 @@ app.post("/social-media-habits-2", async (req, res) => {
     const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0]; // Sort by Timestamp
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Hours: hours.join(", ") || "N/A",
     };
 
@@ -221,7 +221,7 @@ app.post("/social-media-habits-3", async (req, res) => {
     const latestRow = existingRows.sort((a, b) => new Date(b.Timestamp) - new Date(a.Timestamp))[0]; // Sort by Timestamp
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Reasons: reasons.join(", ") || "N/A",
     };
 
@@ -265,7 +265,7 @@ app.post("/submit-setup", async (req, res) => {
     }
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       "Setup Data": setupData.join(", ") || "N/A",
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
     };
@@ -376,7 +376,7 @@ app.post("/mews1", async (req, res) => {
     const sheet = await getGoogleSheet("Mind Excessively Wandering Scale", ["User ID", "Timestamp", "Statement 1", "Statement 2", "Statement 3", "Statement 4", "Statement 5", "Statement 6", "Statement 7", "Statement 8", "Statement 9", "Statement 10", "Statement 11", "Statement 12", "Statement 13", "Statement 14", "Statement 15"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Statement 1": responses[0] || "N/A",
       "Statement 2": responses[1] || "N/A",
@@ -529,7 +529,7 @@ app.post("/demographicques1", async (req, res) => {
     }
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       Gender: gender,
     };
@@ -669,7 +669,7 @@ app.post('/popquiz', async (req, res) => {
 
         // Prepare the row data
         const rowData = {
-            "userId": userId,
+            "User ID": `'${userId}`, 
             "Timestamp": new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
             ...answers.reduce((acc, answer, index) => {
                 acc[`Question ${index + 1}`] = answer; 
@@ -744,7 +744,7 @@ app.post("/socialmedia1", async (req, res) => {
     ]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       YouTube: hours.YouTube,
       Facebook: hours.Facebook,
@@ -779,7 +779,7 @@ app.post("/socialmedia2", async (req, res) => {
     const sheet = await getGoogleSheet("Social Media New 2", ["User ID", "Timestamp", "Social interaction", "Information seeking", "Passing time", "Entertainment", "Relaxation", "Expression of opinions", "Information sharing", "Knowledge of others", "Multitasking"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Social interaction": responses[0] || "N/A",
       "Information seeking": responses[1] || "N/A",
@@ -816,7 +816,7 @@ app.post("/socialmedia2new", async (req, res) => {
     const sheet = await getGoogleSheet("Social Media New 2", ["User ID", "Timestamp", "Interpersonal-Related Actions", "Intrapersonal-Related Actions", "Information-Related Actions"]);
 
     const rowData = {
-      "User ID": userId,
+      "User ID": `'${userId}`, 
       Timestamp: new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
       "Interpersonal-Related Actions": responses[0] || "N/A",
       "Intrapersonal-Related Actions": responses[1] || "N/A",
