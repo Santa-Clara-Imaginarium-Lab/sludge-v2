@@ -669,7 +669,7 @@ app.post('/popquiz', async (req, res) => {
 
         // Prepare the row data
         const rowData = {
-            "User ID": `'${userId}`, 
+            "userId": `'${userId}`, 
             "Timestamp": new Date().toLocaleString("en-US", { timeZone: "America/Los_Angeles" }),
             ...answers.reduce((acc, answer, index) => {
                 acc[`Question ${index + 1}`] = answer; 
