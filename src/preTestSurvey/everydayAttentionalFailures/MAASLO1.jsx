@@ -70,7 +70,6 @@ const MAASLO1 = () => {
   return (
       <div className="container">
       <div className="qualtrix-container">
-        <h1 className="title">MAAS-LO: Everyday Attentional Failures</h1>
         <p className="description">
           Please select the option that best reflects your experience for each statement.
         </p>
