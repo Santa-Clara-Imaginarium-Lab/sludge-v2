@@ -13,6 +13,41 @@ from flask_cors import CORS
 from flask_socketio import SocketIO
 import threading
 
+# Import Google Drive helper if available
+try:
+    # Add debug information for imports
+    import sys
+    print(f"Python version: {sys.version}")
+    print(f"Python path: {sys.path}")
+    
+    # Try to import Google Drive dependencies first to isolate issues
+    try:
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+        from googleapiclient.http import MediaFileUpload
+        print("Google API libraries imported successfully")
+    except ImportError as e:
+        print(f"Failed to import Google API libraries: {e}")
+        raise
+    
+    # Now try to import from our helper
+    from drive_helper import upload_file_to_drive, DRIVE_FOLDER_ID
+    print(f"Drive helper imported successfully, folder ID: {DRIVE_FOLDER_ID}")
+    
+    # Check if service account file exists
+    import os
+    service_account_file = 'sludge-eye-tracker-8dae6ab3607f.json'
+    if os.path.exists(service_account_file):
+        print(f"Service account file found: {service_account_file}")
+    else:
+        print(f"Service account file NOT found: {service_account_file}")
+        print(f"Current working directory: {os.getcwd()}")
+    
+    DRIVE_UPLOAD_ENABLED = True
+except Exception as e:
+    DRIVE_UPLOAD_ENABLED = False
+    logging.warning(f"Google Drive upload not available. Error: {e}")
+
 # Setup logging
 logging.basicConfig(
     level=logging.INFO,
@@ -29,9 +64,13 @@ parser.add_argument('--sdk-path', type=str,
                     help='Path to Beam SDK')
 parser.add_argument('--port', type=int, default=5000, help='Server port')
 parser.add_argument('--host', type=str, default='127.0.0.1', help='Server host')
-parser.add_argument('--mock', action='store_true', help='Use mock tracker for development')
 parser.add_argument('--data-dir', type=str, default='data', help='Directory to save eye tracking data')
+parser.add_argument('--upload-to-drive', action='store_true', help='Upload CSV files to Google Drive')
 args = parser.parse_args()
+
+# Check if Drive upload is requested but not available
+if args.upload_to_drive and not DRIVE_UPLOAD_ENABLED:
+    logger.warning("Google Drive upload requested but not available. Files will only be saved locally.")
 
 # ----- SETUP BEAM SDK PATHS -----
 sdk_path = args.sdk_path
@@ -45,141 +84,49 @@ sys.path.append(os.path.join(sdk_path, "python", "package"))
 beam_exe = "BeamEyeTracker.exe"
 beam_running = False
 
-# Check if Beam application is running (skip if using mock)
-if not args.mock:
-    for proc in psutil.process_iter(['name', 'exe', 'cmdline']):
-        if proc.info['name'] == beam_exe:
-            beam_running = True
-            logger.info(f"✅ Found BeamEyeTracker.exe running at PID: {proc.pid}")
-            logger.info(f"  Process path: {proc.info['exe']}")
-            logger.info(f"  Command line: {proc.info['cmdline']}")
-            break
+# Check if Beam application is running
+for proc in psutil.process_iter(['name', 'exe', 'cmdline']):
+    if proc.info['name'] == beam_exe:
+        beam_running = True
+        logger.info(f"✅ Found BeamEyeTracker.exe running at PID: {proc.pid}")
+        logger.info(f"  Process path: {proc.info['exe']}")
+        logger.info(f"  Command line: {proc.info['cmdline']}")
+        break
 
-    if not beam_running:
-        logger.error(f"❌ Error: The Beam Eye Tracking application ({beam_exe}) is not running.")
-        logger.error("Please start the Beam Eye Tracking application first before running this server.")
-        logger.error("You can find the Beam application in your Start menu or in the Beam installation folder.")
-        logger.error("Alternatively, run with --mock flag for development without the Beam application.")
-        sys.exit(1)
+if not beam_running:
+    logger.warning(f"⚠️ Warning: The Beam Eye Tracking application ({beam_exe}) is not running.")
+    logger.warning("Eye tracking features will be disabled but the website will continue to function.")
+    
+# Verify SDK paths
+if not os.path.exists(sdk_path):
+    logger.warning(f"⚠️ Warning: SDK path not found: {sdk_path}")
+    logger.warning("Eye tracking features will be disabled but the website will continue to function.")
 
-    # Verify SDK paths
-    if not os.path.exists(sdk_path):
-        logger.error(f"❌ Error: SDK path not found: {sdk_path}")
-        logger.error("Please verify the SDK path using the --sdk-path argument.")
-        sys.exit(1)
+if not os.path.exists(dll_path):
+    logger.warning(f"⚠️ Warning: DLL path not found: {dll_path}")
+    logger.warning("Eye tracking features will be disabled but the website will continue to function.")
 
-    if not os.path.exists(dll_path):
-        logger.error(f"❌ Error: DLL path not found: {dll_path}")
-        logger.error("Please verify the SDK path is correct.")
-        sys.exit(1)
+# ----- TRY LOADING DLL EXPLICITLY -----
+EYE_TRACKING_AVAILABLE = False
 
-# ----- TRY LOADING DLL EXPLICITLY (Skip if using mock) -----
-USE_MOCK_TRACKER = args.mock
-if not USE_MOCK_TRACKER:
-    try:
-        logger.info(f"🔧 Attempting to load DLL from: {os.path.join(dll_path, 'beam_eye_tracker_client.dll')}")
-        ctypes.cdll.LoadLibrary(os.path.join(dll_path, "beam_eye_tracker_client.dll"))
-        logger.info("✅ DLL loaded successfully!")
-    except Exception as e:
-        logger.error(f"❌ Error loading DLL: {e}")
-        logger.error(f"Current PATH: {os.environ['PATH']}")
-        logger.error(f"Current Python path: {sys.path}")
-        logger.error("⚠️ Falling back to mock eye tracker")
-        USE_MOCK_TRACKER = True
-
-# ----- IMPORT SDK OR MOCK -----
 try:
-    if USE_MOCK_TRACKER:
-        logger.info("Using mock eye tracker for development")
-        from mock_eye_tracker import MockEyeTracker
-    else:
+    logger.info(f"🔧 Attempting to load DLL from: {os.path.join(dll_path, 'beam_eye_tracker_client.dll')}")
+    ctypes.cdll.LoadLibrary(os.path.join(dll_path, "beam_eye_tracker_client.dll"))
+    logger.info("✅ DLL loaded successfully!")
+    
+    # Try to import the SDK
+    try:
         logger.info("🔧 Importing Beam SDK...")
         from eyeware.beam_eye_tracker import API, ViewportGeometry, Point
         logger.info("✅ SDK imported successfully!")
+        EYE_TRACKING_AVAILABLE = True
+    except Exception as e:
+        logger.error(f"❌ Error importing SDK: {e}")
+        logger.warning("Eye tracking features will be disabled but the website will continue to function.")
+        
 except Exception as e:
-    logger.error(f"❌ Error: {e}")
-    
-    if not USE_MOCK_TRACKER:
-        logger.error("Falling back to mock eye tracker")
-        USE_MOCK_TRACKER = True
-        try:
-            from mock_eye_tracker import MockEyeTracker
-        except ImportError:
-            logger.error("❌ Error: mock_eye_tracker.py not found. Creating it now...")
-            # Create mock_eye_tracker.py if it doesn't exist
-            with open("mock_eye_tracker.py", "w") as f:
-                f.write("""import time
-import random
-import threading
-
-class MockEyeTracker:
-    def __init__(self):
-        self.running = False
-        self.data = []
-        self.thread = None
-        self.screen_width = 1920
-        self.screen_height = 1080
-    
-    def start_tracking(self, screen_width, screen_height):
-        self.screen_width = screen_width
-        self.screen_height = screen_height
-        self.running = True
-        self.data = []
-        
-        # Start generating mock data
-        self.thread = threading.Thread(target=self._generate_data)
-        self.thread.daemon = True
-        self.thread.start()
-        
-        print(f"Mock eye tracker started with screen size: {screen_width}x{screen_height}")
-        return True
-    
-    def _generate_data(self):
-        # Generate mock gaze data
-        center_x = self.screen_width / 2
-        center_y = self.screen_height / 2
-        
-        while self.running:
-            # Generate random gaze data around screen center with occasional jumps
-            if random.random() < 0.05:  # 5% chance of jumping to a new area
-                x = random.uniform(0, self.screen_width)
-                y = random.uniform(0, self.screen_height)
-            else:
-                # Stay around recent position with noise
-                last_x = center_x if not self.data else self.data[-1]['x']
-                last_y = center_y if not self.data else self.data[-1]['y']
-                
-                x = max(0, min(self.screen_width, last_x + random.normalvariate(0, 20)))
-                y = max(0, min(self.screen_height, last_y + random.normalvariate(0, 20)))
-            
-            # Add some randomness to confidence
-            confidence = random.uniform(0.7, 1.0)
-            
-            gaze_data = {
-                'timestamp': time.time(),
-                'x': x,
-                'y': y,
-                'confidence': confidence
-            }
-            
-            self.data.append(gaze_data)
-            time.sleep(0.033)  # ~30 Hz data rate
-    
-    def stop_tracking(self):
-        if not self.running:
-            return False
-            
-        self.running = False
-        if self.thread:
-            self.thread.join(timeout=1.0)
-        
-        print("Mock eye tracker stopped")
-        return self.data
-    
-    def get_data(self):
-        return self.data
-""")
-                from mock_eye_tracker import MockEyeTracker
+    logger.error(f"❌ Error loading DLL: {e}")
+    logger.warning("Eye tracking features will be disabled but the website will continue to function.")
 
 # ----- FLASK APP SETUP -----
 app = Flask(__name__)
@@ -251,16 +198,9 @@ class GazeTracker:
         self.current_session_id = None
         self.screen_width = 1920
         self.screen_height = 1080
-        
-        # Create mock tracker if using fallback
-        if USE_MOCK_TRACKER:
-            self.mock_tracker = MockEyeTracker()
     
-    def start_tracking(self, session_id, screen_width, screen_height, video_data=None):
-        if self.running:
-            return False
-        
-        # Store screen dimensions
+    def start_tracking(self, session_id, screen_width, screen_height, metadata=None):
+        # Store session info regardless of tracking availability
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.current_session_id = session_id
@@ -269,21 +209,18 @@ class GazeTracker:
         session_manager.create_session(session_id, {
             "screen_width": screen_width,
             "screen_height": screen_height,
-            "video_data": video_data
+            **metadata  # Unpack all metadata including userId and videoData
         })
         
-        # Use mock tracker if SDK failed to load
-        if USE_MOCK_TRACKER:
-            success = self.mock_tracker.start_tracking(screen_width, screen_height)
-            if success:
-                self.running = True
-                session_manager.start_session(session_id)
-                
-                # Start data forwarding thread
-                self.tracking_thread = threading.Thread(target=self._forward_mock_data)
-                self.tracking_thread.daemon = True
-                self.tracking_thread.start()
-            return success
+        # If eye tracking is not available, just return success but don't actually track
+        if not EYE_TRACKING_AVAILABLE:
+            logger.info(f"Eye tracking unavailable but continuing with session {session_id}")
+            session_manager.start_session(session_id)
+            return True
+            
+        # If we're already tracking, don't start again
+        if self.running:
+            return False
         
         # Use real SDK
         try:
@@ -306,29 +243,9 @@ class GazeTracker:
             return True
         except Exception as e:
             logger.error(f"❌ Error starting eye tracking: {e}")
-            return False
-    
-    def _forward_mock_data(self):
-        """Forward mock eye tracker data to WebSocket"""
-        last_data_length = 0
-        while self.running and self.current_session_id:
-            if USE_MOCK_TRACKER and self.mock_tracker.running:
-                # Get latest data
-                current_data = self.mock_tracker.get_data()
-                if len(current_data) > last_data_length:
-                    # Forward new data points to WebSocket
-                    for i in range(last_data_length, len(current_data)):
-                        gaze_data = current_data[i]
-                        # Add session_id to the data
-                        gaze_data['session_id'] = self.current_session_id
-                        
-                        # Store data in session
-                        session_manager.add_data(self.current_session_id, gaze_data)
-                        
-                        # Emit via socketio
-                        socketio.emit('gaze_data', gaze_data)
-                    last_data_length = len(current_data)
-            time.sleep(0.01)  # Check at 100Hz
+            # Still return true so the application continues
+            session_manager.start_session(session_id)
+            return True
     
     def _track(self):
         """Track using real Beam SDK"""
@@ -359,28 +276,32 @@ class GazeTracker:
             time.sleep(0.01)  # 100Hz
     
     def stop_tracking(self):
-        if not self.running:
-            return False
-            
-        self.running = False
         session_data = session_manager.get_session(self.current_session_id)
         
-        if self.tracking_thread:
-            self.tracking_thread.join(timeout=5.0)
-            self.tracking_thread = None
+        # If tracking was running, stop it
+        if self.running:
+            self.running = False
+            
+            if self.tracking_thread:
+                self.tracking_thread.join(timeout=5.0)
+                self.tracking_thread = None
         
-        if USE_MOCK_TRACKER and hasattr(self, 'mock_tracker'):
-            self.mock_tracker.stop_tracking()
-        
-        # Save the tracking data to CSV
-        if session_data:
-            save_result = save_session_to_csv(self.current_session_id, session_data)
+        # Save the tracking data to CSV and optionally upload to Google Drive
+        drive_file_id = None
+        if session_data and EYE_TRACKING_AVAILABLE:
+            # Only save data if we have tracking data and eye tracking was available
+            save_result, drive_file_id = save_session_to_csv(self.current_session_id, session_data)
             if save_result:
-                logger.info(f"💾 Eye tracking data saved to CSV for session {self.current_session_id}")
+                if drive_file_id:
+                    logger.info(f"💾 Eye tracking data saved to CSV and uploaded to Google Drive for session {self.current_session_id}")
+                else:
+                    logger.info(f"💾 Eye tracking data saved to CSV for session {self.current_session_id}")
             else:
                 logger.warning(f"⚠️ Failed to save eye tracking data for session {self.current_session_id}")
         
-        logger.info(f"✅ Eye tracking stopped for session {self.current_session_id}")
+        if self.current_session_id:
+            logger.info(f"✅ Session stopped: {self.current_session_id}")
+        
         return session_data
     
     def get_current_session(self):
@@ -398,15 +319,23 @@ def start_tracking():
     screen_width = data.get('screenWidth', 1920)
     screen_height = data.get('screenHeight', 1080)
     session_id = data.get('sessionId', f"session_{int(time.time())}")
+    user_id = data.get('userId', 'anonymous')  # Get userId from request
     video_data = data.get('videoData', {})
     
-    success = tracker.start_tracking(session_id, screen_width, screen_height, video_data)
+    # Add userId to metadata for tracking
+    metadata = {
+        "videoData": video_data,
+        "userId": user_id  # Store userId in metadata
+    }
+    
+    success = tracker.start_tracking(session_id, screen_width, screen_height, metadata)
     
     if success:
         return jsonify({
             "status": "success", 
             "message": "Tracking started",
-            "sessionId": session_id
+            "sessionId": session_id,
+            "userId": user_id
         })
     else:
         return jsonify({"status": "error", "message": "Failed to start tracking"})
@@ -418,16 +347,25 @@ def stop_tracking():
         
         # Get the CSV filename if data was saved
         csv_filename = None
+        drive_file_id = None
         if session_data:
-            session_id = tracker.get_current_session()
+            session_id = tracker.current_session_id
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             csv_filename = f"{session_id}_{timestamp}.csv"
+            
+            # Check if we have a drive file ID stored
+            for thread in threading.enumerate():
+                if getattr(thread, "_drive_file_id", None) and getattr(thread, "_session_id", None) == session_id:
+                    drive_file_id = thread._drive_file_id
+                    break
         
         return jsonify({
             'status': 'success',
             'message': 'Eye tracking stopped',
             'dataPoints': len(session_data.get('data', [])) if session_data else 0,
-            'csvFile': csv_filename
+            'csvFile': csv_filename,
+            'driveFileId': drive_file_id,
+            'uploadedToDrive': drive_file_id is not None
         })
     except Exception as e:
         logger.error(f"Error stopping eye tracking: {e}")
@@ -504,11 +442,15 @@ else:
 # ----- CSV HELPER FUNCTIONS -----
 def save_session_to_csv(session_id, session_data):
     """
-    Save eye tracking data from a session to a CSV file
+    Save eye tracking data from a session to a CSV file and optionally upload to Google Drive
     """
     try:
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{session_id}_{timestamp}.csv"
+        # Get userId from metadata if available
+        metadata = session_data.get("metadata", {})
+        user_id = metadata.get("userId", "anonymous")
+        
+        # Use only the userId for the filename
+        filename = f"{user_id}.csv"
         filepath = os.path.join(data_dir, filename)
         
         # Extract gaze data points
@@ -517,7 +459,7 @@ def save_session_to_csv(session_id, session_data):
         
         if not gaze_data:
             logger.warning(f"No gaze data to save for session {session_id}")
-            return False
+            return False, None
             
         # Create CSV file with headers
         with open(filepath, 'w', newline='') as csvfile:
@@ -546,14 +488,28 @@ def save_session_to_csv(session_id, session_data):
                 })
                 
         logger.info(f"✅ Saved eye tracking data to {filepath} ({len(gaze_data)} data points)")
-        return True
+        
+        # Upload to Google Drive if enabled
+        file_id = None
+        if args.upload_to_drive and DRIVE_UPLOAD_ENABLED:
+            try:
+                logger.info(f"Uploading {filename} to Google Drive...")
+                file_id = upload_file_to_drive(filepath, DRIVE_FOLDER_ID)
+                if file_id:
+                    logger.info(f"✅ File uploaded to Google Drive with ID: {file_id}")
+                else:
+                    logger.warning("Failed to upload file to Google Drive")
+            except Exception as e:
+                logger.error(f"Error uploading to Google Drive: {e}")
+        
+        return True, file_id
     except Exception as e:
         logger.error(f"❌ Error saving CSV: {e}")
-        return False
+        return False, None
 
 # ----- RUN SERVER -----
 if __name__ == '__main__':
     logger.info(f"🚀 Starting Beam Eye Tracking Server on {args.host}:{args.port}")
-    if USE_MOCK_TRACKER:
-        logger.info("⚠️ Using MOCK eye tracker for development")
+    if not EYE_TRACKING_AVAILABLE:
+        logger.info("⚠️ Eye tracking is not available - website will function without collecting gaze data")
     socketio.run(app, host=args.host, port=args.port, debug=True)

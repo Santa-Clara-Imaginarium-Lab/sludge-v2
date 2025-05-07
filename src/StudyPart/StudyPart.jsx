@@ -121,6 +121,9 @@ const StudyPart = () => {
       const screenWidth = window.innerWidth;
       const screenHeight = window.innerHeight;
 
+      // Get participant userId from localStorage
+      const userId = localStorage.getItem('userId') || 'anonymous';
+
       // Get video information for context
       const videoData = {
         primaryVideo: primaryContent.split("/").pop(),
@@ -139,6 +142,7 @@ const StudyPart = () => {
           screenWidth,
           screenHeight,
           sessionId: `sludge_${Date.now()}`,
+          userId: userId,
           videoData,
         }),
       });
