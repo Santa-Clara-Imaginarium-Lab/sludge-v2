@@ -4,5 +4,5 @@ flask-socketio==5.0.2
 python-socketio==5.0.2
 python-engineio==4.0.0
 eventlet==0.33.3
-werkzeug==2.0.1
+werkzeug==3.0.6
 psutil==5.9.0
